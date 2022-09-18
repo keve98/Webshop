@@ -21,6 +21,10 @@ public class Product {
     @Column(name = "description")
     private String Description;
 
+    @Column(name = "currency")
+    private String Currency;
+
+
     public Long getId() {
         return Id;
     }
@@ -35,5 +39,9 @@ public class Product {
 
     public String getDescription() {
         return Description;
+    }
+
+    public String getCurrency() {
+        return Currency;
     }
 }

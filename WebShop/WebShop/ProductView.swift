@@ -12,6 +12,7 @@ struct Product: Hashable, Codable{
     let id: Int
     let price: Int
     let description: String
+    let currency: String
 }
 
 class ViewModel:ObservableObject{
@@ -59,16 +60,18 @@ struct ProductView: View {
                             Text(product.name)
                                 .bold()
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            Text(String(product.price))
+                            Text(String(product.price) + product.currency)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         }
                         
                         
                         Text(product.description)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding([.top, .leading], 2.0)
+                        //Text(product.currency)
+                            //.padding([.top, .leading], 0.5)
                         
                     }
+                    .padding()
                 }
             }
         }
