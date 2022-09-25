@@ -13,6 +13,7 @@ struct Product: Hashable, Codable{
     let price: Int
     let description: String
     let currency: String
+    let companyid: Int
 }
 
 class ViewModel:ObservableObject{
@@ -72,8 +73,8 @@ struct ProductView: View {
                     .padding()
                 }
             }
+            .navigationTitle("Products")
         }
-        .navigationTitle("Products")
         .onAppear{
             viewModel.fetch()
         }
