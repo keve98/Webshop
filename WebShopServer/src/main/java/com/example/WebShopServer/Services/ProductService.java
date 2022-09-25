@@ -21,4 +21,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> getProductsByCompanyId(String companyid){
+        return productRepository.findProductByCompanyId(companyid);
+    }
+
 }

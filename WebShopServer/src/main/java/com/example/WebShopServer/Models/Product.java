@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @SequenceGenerator(name="MessageSequence", sequenceName="seqmessageid", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="MessageSequence")
+    @SequenceGenerator(name="ProductSequence", sequenceName="seqproductid", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="ProductSequence")
     @Column(name = "idproduct")
     private Long Id;
 
@@ -23,6 +23,9 @@ public class Product {
 
     @Column(name = "currency")
     private String Currency;
+
+    @Column(name = "companyid")
+    private String CompanyId;
 
 
     public Long getId() {
@@ -43,5 +46,9 @@ public class Product {
 
     public String getCurrency() {
         return Currency;
+    }
+
+    public String getCompanyId() {
+        return CompanyId;
     }
 }

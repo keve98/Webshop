@@ -67,8 +67,6 @@ struct ProductView: View {
                         
                         Text(product.description)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        //Text(product.currency)
-                            //.padding([.top, .leading], 0.5)
                         
                     }
                     .padding()
