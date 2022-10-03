@@ -7,14 +7,7 @@
 
 import SwiftUI
 
-struct Product: Hashable, Codable{
-    let name: String
-    let id: Int
-    let price: Int
-    let description: String
-    let currency: String
-    let companyid: Int
-}
+
 
 class ViewModel:ObservableObject{
     
