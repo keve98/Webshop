@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct Login: View {
-    @State var username = ""
-    @State var password = ""
+struct LoginView: View {
+    
+    @ObservedObject var validator = LoginValidator()
+    
     @State var showingAlertSuccess = false
     @State var showingAlertFail = false
     @State var loginError = ""
@@ -19,7 +20,7 @@ struct Login: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color("bgColor"))
+                .fill(Color.white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
             VStack {
@@ -30,21 +31,11 @@ struct Login: View {
 
                 Text("Log in to your account")
                     .foregroundColor(.gray)
+            
                 
-                /*TextField("Username", text: $username)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 20)*/
+                EntryField(placeHolder: "Username", prompt: validator.usernamePrompt, field: $validator.username)
+                EntryField(placeHolder: "Password", prompt: validator.passwordPrompt, field: $validator.password, isSecure: true)
                 
-                EntryField(placeHolder: "Username", prompt: "", field: $username)
-                EntryField(placeHolder: "Password", prompt: "", field: $password, isSecure: true)
-                
-               /* SecureField("Password", text: $password)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 10)*/
                 
                 
                 HStack {
@@ -55,19 +46,13 @@ struct Login: View {
                 
                 HStack {
                     Button(action: {
+                        if validator.isLoginComplete{
                         login()
+                        }
                     }, label: {
-                        Spacer()
-                        Text("LOGIN")
-                            .fontWeight(.bold)
-                            
-                        Spacer()
+
                     })
-                    .foregroundColor(Color.black.opacity(0.8))
-                    .padding()
-                    .background(Color("bgColor"))
-                    .cornerRadius(10)
-                    .modifier(ShadowViewModifier())
+                    .buttonStyle(GrowingButtonStyle(buttonText: "LOGIN"))
                     .alert("Output", isPresented: $showingAlertSuccess){
                         Button("OK", role: .cancel){}
                     }message:{
@@ -99,7 +84,7 @@ struct Login: View {
             return
         }
         
-        let newUser = User(name: "", username: username, password: password, address: "", email: "")
+        let newUser = User(name: "", username: validator.username, password: validator.password, address: "", email: "")
         let json = try! JSONEncoder().encode(newUser)
         print(json)
         var request = URLRequest(url:url)
@@ -129,53 +114,24 @@ struct Login: View {
             }
         }.resume()
     }
-    
-    
-    func CheckMandatoryFields(){
-        //TODO implement
-    }
-    
-}
-
-struct InnerShadowViewModifier: ViewModifier{
-    @State var radius: CGFloat = 5
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(Color("bgColor"), lineWidth: 4)
-                    .shadow(color: Color("darkShadow"), radius: 4, x: 5, y: 5)
-                    .clipShape(RoundedRectangle(cornerRadius: radius))
-                    .shadow(color: Color("lightShadow"), radius: 4, x: -5, y: -5)
-                    .clipShape(RoundedRectangle(cornerRadius: radius))
-            )
-            
-            
-    }
-}
-
-struct InnerShadowModifierWrongValidation:ViewModifier{
-    @State var radius: CGFloat = 5
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(Color.red, lineWidth: 4)
-                    .shadow(color: Color.red, radius: 4, x: 5, y: 5)
-                    .clipShape(RoundedRectangle(cornerRadius: radius))
-                    .shadow(color: Color.red, radius: 4, x: -5, y: -5)
-                    .clipShape(RoundedRectangle(cornerRadius: radius))
-            )
-            
-            
-    }
 }
 
 
-struct ShadowViewModifier: ViewModifier{
-    func body(content: Content) -> some View {
-        content
-            .shadow(color: Color("lightShadow"), radius: 5, x: -2, y: -2)
-            .shadow(color: Color("darkShadow"), radius: 5, x: 8, y: 8)
+
+
+struct GrowingButtonStyle: ButtonStyle {
+    @State var buttonText = ""
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+        Text(buttonText)
+            .font(.headline)
+            .fontWeight(.semibold)
+            .foregroundColor(.white)
+            .padding()
+            .background(Color.blue
+            .cornerRadius(10)
+            .shadow(radius: 10))
+            .scaleEffect(configuration.isPressed ? 1.2 : 1)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }

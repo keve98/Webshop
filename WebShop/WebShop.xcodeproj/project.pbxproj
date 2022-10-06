@@ -8,32 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		CB4E502B0C17C5DA8AC97050 /* Pods_WebShop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB2C5D0871F8A06D0D490C7C /* Pods_WebShop.framework */; };
-		D100731528EE24B000C305E7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D100731428EE24B000C305E7 /* RegisterViewController.swift */; };
-		D10D8BC228EB3D0C0023CAE8 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D8BC128EB3D0C0023CAE8 /* Login.swift */; };
+		D10D8BC228EB3D0C0023CAE8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D8BC128EB3D0C0023CAE8 /* LoginView.swift */; };
 		D10D8BC428EB4C0F0023CAE8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D8BC328EB4C0F0023CAE8 /* ContentView.swift */; };
-		D10D8BC628EB4CF30023CAE8 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D8BC528EB4CF30023CAE8 /* Register.swift */; };
+		D10D8BC628EB4CF30023CAE8 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D8BC528EB4CF30023CAE8 /* RegisterView.swift */; };
 		D10D8BC828EB81AE0023CAE8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D8BC728EB81AE0023CAE8 /* Models.swift */; };
 		D151AC8C28D6647B00A4F402 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D151AC8B28D6647B00A4F402 /* ProductView.swift */; };
 		D189B82028D4AFE600022137 /* WebShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D189B81F28D4AFE600022137 /* WebShopApp.swift */; };
 		D189B82428D4AFE800022137 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D189B82328D4AFE800022137 /* Assets.xcassets */; };
 		D189B82728D4AFE800022137 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D189B82628D4AFE800022137 /* Preview Assets.xcassets */; };
-		D197F3AF28EF14C000765590 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197F3AE28EF14C000765590 /* Validator.swift */; };
+		D197F3B128EF28FA00765590 /* RegisterValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197F3B028EF28FA00765590 /* RegisterValidator.swift */; };
+		D197F3B528EF336100765590 /* LoginValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197F3B428EF336100765590 /* LoginValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8DBF958A3EEDDA81AEFCBED9 /* Pods-WebShop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebShop.debug.xcconfig"; path = "Target Support Files/Pods-WebShop/Pods-WebShop.debug.xcconfig"; sourceTree = "<group>"; };
 		CB2C5D0871F8A06D0D490C7C /* Pods_WebShop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WebShop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D100731428EE24B000C305E7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		D10D8BC128EB3D0C0023CAE8 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		D10D8BC128EB3D0C0023CAE8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		D10D8BC328EB4C0F0023CAE8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		D10D8BC528EB4CF30023CAE8 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		D10D8BC528EB4CF30023CAE8 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		D10D8BC728EB81AE0023CAE8 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		D151AC8B28D6647B00A4F402 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		D189B81C28D4AFE600022137 /* WebShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D189B81F28D4AFE600022137 /* WebShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebShopApp.swift; sourceTree = "<group>"; };
 		D189B82328D4AFE800022137 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D189B82628D4AFE800022137 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D197F3AE28EF14C000765590 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		D197F3B028EF28FA00765590 /* RegisterValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterValidator.swift; sourceTree = "<group>"; };
+		D197F3B428EF336100765590 /* LoginValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidator.swift; sourceTree = "<group>"; };
 		D48A6457EA2D4EC14F6DFD72 /* Pods-WebShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebShop.release.xcconfig"; path = "Target Support Files/Pods-WebShop/Pods-WebShop.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,16 +87,14 @@
 		D189B81E28D4AFE600022137 /* WebShop */ = {
 			isa = PBXGroup;
 			children = (
+				D197F3B328EF332200765590 /* Login */,
+				D197F3B228EF31BE00765590 /* Registration */,
 				D189B81F28D4AFE600022137 /* WebShopApp.swift */,
 				D189B82328D4AFE800022137 /* Assets.xcassets */,
 				D189B82528D4AFE800022137 /* Preview Content */,
 				D151AC8B28D6647B00A4F402 /* ProductView.swift */,
-				D10D8BC128EB3D0C0023CAE8 /* Login.swift */,
-				D10D8BC528EB4CF30023CAE8 /* Register.swift */,
 				D10D8BC328EB4C0F0023CAE8 /* ContentView.swift */,
 				D10D8BC728EB81AE0023CAE8 /* Models.swift */,
-				D100731428EE24B000C305E7 /* RegisterViewController.swift */,
-				D197F3AE28EF14C000765590 /* Validator.swift */,
 			);
 			path = WebShop;
 			sourceTree = "<group>";
@@ -107,6 +105,24 @@
 				D189B82628D4AFE800022137 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D197F3B228EF31BE00765590 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				D197F3B028EF28FA00765590 /* RegisterValidator.swift */,
+				D10D8BC528EB4CF30023CAE8 /* RegisterView.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
+		D197F3B328EF332200765590 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D10D8BC128EB3D0C0023CAE8 /* LoginView.swift */,
+				D197F3B428EF336100765590 /* LoginValidator.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,14 +239,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D197F3AF28EF14C000765590 /* Validator.swift in Sources */,
-				D10D8BC228EB3D0C0023CAE8 /* Login.swift in Sources */,
+				D10D8BC228EB3D0C0023CAE8 /* LoginView.swift in Sources */,
 				D151AC8C28D6647B00A4F402 /* ProductView.swift in Sources */,
-				D100731528EE24B000C305E7 /* RegisterViewController.swift in Sources */,
 				D10D8BC428EB4C0F0023CAE8 /* ContentView.swift in Sources */,
 				D10D8BC828EB81AE0023CAE8 /* Models.swift in Sources */,
+				D197F3B128EF28FA00765590 /* RegisterValidator.swift in Sources */,
 				D189B82028D4AFE600022137 /* WebShopApp.swift in Sources */,
-				D10D8BC628EB4CF30023CAE8 /* Register.swift in Sources */,
+				D197F3B528EF336100765590 /* LoginValidator.swift in Sources */,
+				D10D8BC628EB4CF30023CAE8 /* RegisterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

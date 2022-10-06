@@ -20,13 +20,13 @@ struct Home: View{
         NavigationView{
             ZStack{
                 NavigationLink(
-                    destination: Register(isShow: self.$isShow),
+                    destination: RegisterView(isShow: self.$isShow),
                     isActive: self.$isShow,
                     label: {
                         Text("")
                     }).hidden()
                 
-                Login(isShow: self.$isShow)
+                LoginView(isShow: self.$isShow)
             }
         }
     }

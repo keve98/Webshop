@@ -7,16 +7,9 @@
 
 import SwiftUI
 
-struct Register: View {
+struct RegisterView: View {
     
-    @State var name = ""
-    @State var username = ""
-    @State var address = ""
-    @State var email = ""
-    @State var password = ""
-    @State var confirmPassword = ""
-    @State var emailColor = Color.black
-    
+    @ObservedObject var validator = RegisterValidator()
     
     @Binding var isShow: Bool
 
@@ -25,7 +18,7 @@ struct Register: View {
         ZStack(alignment: .topLeading) {
             
             Rectangle()
-                .fill(Color("bgColor"))
+                .fill(Color.white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.all)
             register
@@ -48,36 +41,29 @@ struct Register: View {
                     .foregroundColor(.gray)
                 
 
-                EntryField(placeHolder: "Name", prompt: "", field: $name)
-                EntryField(placeHolder: "Username", prompt: "", field: $username)
-                EntryField(placeHolder: "Address", prompt: "", field: $address)
-                EntryField(placeHolder: "Email", prompt: "", field: $email)
-                EntryField(placeHolder: "Password", prompt: "", field: $password, isSecure: true)
-                EntryField(placeHolder: "Confirm password", prompt: "", field: $confirmPassword, isSecure: true)
+                EntryField(placeHolder: "Name", prompt: validator.confirmNamePrompt, field: $validator.name)
+                
+                EntryField(placeHolder: "Username", prompt: validator.confirmUsernamePrompt, field: $validator.username)
+                
+                EntryField(placeHolder: "Address", prompt: validator.confirmAddressPrompt, field: $validator.address)
+                
+                EntryField(placeHolder: "Email", prompt: validator.emailPrompt, field: $validator.email)
+                
+                EntryField(placeHolder: "Password", prompt: validator.passwordPrompt, field: $validator.password, isSecure: true)
+                
+                EntryField(placeHolder: "Confirm password", prompt: validator.confirmPwPrompt, field: $validator.confirmPassword, isSecure: true)
+                    
                
                 
                 HStack {
                     Button(action: {
-                        
-                        if(email.isValidEmail){
+                        if(validator.isSignUpComplete){
                             self.registerUser()
-                        }else{
-                            
                         }
-                        
-                        
                     }, label: {
-                        Spacer()
-                        Text("CONFIRM")
-                            .fontWeight(.bold)
-                            
-                        Spacer()
                     })
-                    .foregroundColor(Color.black.opacity(0.8))
-                    .padding()
-                    .background(Color("bgColor"))
-                    .cornerRadius(10)
-                    .modifier(ShadowViewModifier())
+                    .padding(.top, 10)
+                    .buttonStyle(GrowingButtonStyle(buttonText: "CONFIRM"))
                 }.padding(.bottom, 15)                
             }.padding(30)
         }
@@ -90,7 +76,7 @@ struct Register: View {
             return
         }
         
-        let newUser = User(name: name, username: username, password: password, address: address, email: email)
+        let newUser = User(name: validator.name, username: validator.username, password: validator.password, address: validator.address, email: validator.email)
         let json = try! JSONEncoder().encode(newUser)
         print(json)
         var request = URLRequest(url:url)
@@ -132,25 +118,25 @@ struct EntryField: View{
             Text(prompt)
                 .fixedSize(horizontal: false, vertical: true)
                 .font(.caption)
+                .foregroundColor(Color.red)
             HStack{
                 if(isSecure){
                     SecureField(placeHolder, text: $field)
                         .padding()
                         .cornerRadius(5)
-                        .modifier(InnerShadowViewModifier())
                         .padding(.bottom, 5)
                         .autocapitalization(.none)
-                        .disableAutocorrection(.none)
+                        .disableAutocorrection(true)
                 }else{
                     TextField(placeHolder, text: $field)
                         .padding()
                         .cornerRadius(5)
-                        .modifier(InnerShadowViewModifier())
                         .padding(.bottom, 5)
                         .autocapitalization(.none)
-                        .disableAutocorrection(.none)
+                        .disableAutocorrection(true)
                 }
-            }
+            }.overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
         }
+        
     }
 }
