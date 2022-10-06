@@ -15,7 +15,11 @@ struct Register: View {
     @State var email = ""
     @State var password = ""
     @State var confirmPassword = ""
+    @State var emailColor = Color.black
+    
+    
     @Binding var isShow: Bool
+
 
     var body: some View{
         ZStack(alignment: .topLeading) {
@@ -43,47 +47,25 @@ struct Register: View {
                 Text("Create an account")
                     .foregroundColor(.gray)
                 
-                TextField("Name", text: $name)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 20)
-                
-                TextField("Username", text: $username)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 20)
-                
-                TextField("Address", text: $address)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 20)
-                
-                TextField("Email", text: $email)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 20)
-                
-                SecureField("Password", text: $password)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 10)
-                
-                SecureField("Confirm password", text: $confirmPassword)
-                    .padding()
-                    .cornerRadius(5)
-                    .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 10)
-                
-                
+
+                EntryField(placeHolder: "Name", prompt: "", field: $name)
+                EntryField(placeHolder: "Username", prompt: "", field: $username)
+                EntryField(placeHolder: "Address", prompt: "", field: $address)
+                EntryField(placeHolder: "Email", prompt: "", field: $email)
+                EntryField(placeHolder: "Password", prompt: "", field: $password, isSecure: true)
+                EntryField(placeHolder: "Confirm password", prompt: "", field: $confirmPassword, isSecure: true)
+               
                 
                 HStack {
                     Button(action: {
-                        registerUser()
+                        
+                        if(email.isValidEmail){
+                            self.registerUser()
+                        }else{
+                            
+                        }
+                        
+                        
                     }, label: {
                         Spacer()
                         Text("CONFIRM")
@@ -131,8 +113,44 @@ struct Register: View {
             }
             catch{
                 print(error)
-            }            }
+            }
+                
+            }
         }.resume()
         
+    }
+}
+
+struct EntryField: View{
+    var placeHolder: String
+    var prompt: String
+    @Binding var field:String
+    var isSecure:Bool = false
+    
+    var body: some View{
+        VStack(alignment: .leading){
+            Text(prompt)
+                .fixedSize(horizontal: false, vertical: true)
+                .font(.caption)
+            HStack{
+                if(isSecure){
+                    SecureField(placeHolder, text: $field)
+                        .padding()
+                        .cornerRadius(5)
+                        .modifier(InnerShadowViewModifier())
+                        .padding(.bottom, 5)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(.none)
+                }else{
+                    TextField(placeHolder, text: $field)
+                        .padding()
+                        .cornerRadius(5)
+                        .modifier(InnerShadowViewModifier())
+                        .padding(.bottom, 5)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(.none)
+                }
+            }
+        }
     }
 }

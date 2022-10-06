@@ -31,17 +31,20 @@ struct Login: View {
                 Text("Log in to your account")
                     .foregroundColor(.gray)
                 
-                TextField("Username", text: $username)
+                /*TextField("Username", text: $username)
                     .padding()
                     .cornerRadius(5)
                     .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 20)*/
                 
-                SecureField("Password", text: $password)
+                EntryField(placeHolder: "Username", prompt: "", field: $username)
+                EntryField(placeHolder: "Password", prompt: "", field: $password, isSecure: true)
+                
+               /* SecureField("Password", text: $password)
                     .padding()
                     .cornerRadius(5)
                     .modifier(InnerShadowViewModifier())
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 10)*/
                 
                 
                 HStack {
@@ -135,7 +138,7 @@ struct Login: View {
 }
 
 struct InnerShadowViewModifier: ViewModifier{
-    @State var radius: CGFloat = 10
+    @State var radius: CGFloat = 5
     func body(content: Content) -> some View {
         content
             .overlay(
@@ -151,6 +154,23 @@ struct InnerShadowViewModifier: ViewModifier{
     }
 }
 
+struct InnerShadowModifierWrongValidation:ViewModifier{
+    @State var radius: CGFloat = 5
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+                RoundedRectangle(cornerRadius: radius)
+                    .stroke(Color.red, lineWidth: 4)
+                    .shadow(color: Color.red, radius: 4, x: 5, y: 5)
+                    .clipShape(RoundedRectangle(cornerRadius: radius))
+                    .shadow(color: Color.red, radius: 4, x: -5, y: -5)
+                    .clipShape(RoundedRectangle(cornerRadius: radius))
+            )
+            
+            
+    }
+}
+
 
 struct ShadowViewModifier: ViewModifier{
     func body(content: Content) -> some View {
@@ -159,11 +179,3 @@ struct ShadowViewModifier: ViewModifier{
             .shadow(color: Color("darkShadow"), radius: 5, x: 8, y: 8)
     }
 }
-
-
-
-/*struct Login_Previews: PreviewProvider {
-    static var previews: some View {
-        Login()
-    }
-}*/
