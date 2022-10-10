@@ -12,6 +12,8 @@ class LoginValidator: ObservableObject{
     @Published var username = ""
     @Published var password = ""
     
+
+    
     func isUsernameValid() -> Bool{
         return username.isEmpty ? false : true
     }

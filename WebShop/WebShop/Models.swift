@@ -8,13 +8,17 @@
 import Foundation
 import SwiftUI
 
+struct Products: Codable{
+    let products: [Product]
+}
+
 struct Product: Codable, Hashable{
     let name: String
     let id: Int
     let price: Int
     let description: String
     let currency: String
-    let companyid: Int
+    let companyId: Int
 }
 
 struct User: Codable{
@@ -24,3 +28,4 @@ struct User: Codable{
     let address: String
     let email: String
 }
+

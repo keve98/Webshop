@@ -10,110 +10,74 @@ import SwiftUI
 struct LoginView: View {
     
     @ObservedObject var validator = LoginValidator()
+    @ObservedObject var server = ServerCommunication()
     
     @State var showingAlertSuccess = false
     @State var showingAlertFail = false
-    @State var loginError = ""
+    @State var loginSuccess = false
+    @State private var active: Bool = false
     @Binding var isShow: Bool
-
+    
     
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color.white)
+                .fill(Color("bgColor"))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
-            VStack {
-                Spacer()
-                Text("WELCOME")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-
-                Text("Log in to your account")
-                    .foregroundColor(.gray)
-            
-                
-                EntryField(placeHolder: "Username", prompt: validator.usernamePrompt, field: $validator.username)
-                EntryField(placeHolder: "Password", prompt: validator.passwordPrompt, field: $validator.password, isSecure: true)
-                
-                
-                
-                HStack {
+            NavigationView{
+                VStack {
                     Spacer()
-                    Text("Forget password?")
+                    Text("WELCOME")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                    
+                    Text("Log in to your account")
                         .foregroundColor(.gray)
-                }.padding(.bottom, 15)
-                
-                HStack {
-                    Button(action: {
-                        if validator.isLoginComplete{
-                        login()
+                        .padding(.bottom, 20)
+                    
+                    
+                    EntryField(placeHolder: "Username", prompt: validator.usernamePrompt, field: $validator.username)
+                    EntryField(placeHolder: "Password", prompt: validator.passwordPrompt, field: $validator.password, isSecure: true)
+                    
+                    
+                    
+                    HStack {
+                        Spacer()
+                        Text("Forget password?")
+                            .foregroundColor(.gray)
+                    }.padding(.bottom, 15)
+                    
+                    HStack {
+                        NavigationLink(destination: HomePageView(), isActive: $active){
+                            Button(action: {
+                                if validator.isLoginComplete{
+                                    server.login(userName: validator.username, pw: validator.password)
+                                    if !ServerCommunication.loggedInUser.name.isEmpty{
+                                        active = true
+                                    }
+                                
+                                }
+                            }, label: {
+                                
+                            })
+                            .buttonStyle(GrowingButtonStyle(buttonText: "LOGIN"))
                         }
-                    }, label: {
-
-                    })
-                    .buttonStyle(GrowingButtonStyle(buttonText: "LOGIN"))
-                    .alert("Output", isPresented: $showingAlertSuccess){
-                        Button("OK", role: .cancel){}
-                    }message:{
-                        Text("Login Successful")
+                    }.padding(.bottom, 15)
+                    
+                    HStack {
+                        Text("Sign up")
+                            .foregroundColor(.blue)
+                            .onTapGesture {
+                                self.isShow.toggle()
+                            }
                     }
-                    .alert("Output", isPresented: $showingAlertFail){
-                        Button("OK", role: .cancel){}
-                    }message:{
-                        Text(loginError)
-                    }
-                }.padding(.bottom, 15)
-                
-                HStack {
-                    Text("Sign up")
-                        .foregroundColor(.blue)
-                        .onTapGesture {
-                            self.isShow.toggle()
-                        }
-                }
-                
-                Spacer()
-            }.padding(30)
+                    Spacer()
+                }.padding(30)
+            }
         }
     }
     
-    func login(){
-        guard let url = URL(string:"http://localhost:8080/login")else{
-            print("Not found url")
-            return
-        }
-        
-        let newUser = User(name: "", username: validator.username, password: validator.password, address: "", email: "")
-        let json = try! JSONEncoder().encode(newUser)
-        print(json)
-        var request = URLRequest(url:url)
-        request.httpMethod = "POST"
-        request.httpBody = json
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-       URLSession.shared.dataTask(with: request){
-           data, response, error in
-            
-            if let data = data{
-            do{
-                let result = try JSONDecoder().decode(User.self, from: data)
-                DispatchQueue.main.async {
-                    print(result)
-                }
-                
-                showingAlertSuccess = true
-                
-            }
-            catch{
-                print(error)
-                loginError = response.debugDescription
-                showingAlertFail = true
-            }
-            }
-        }.resume()
-    }
 }
 
 
@@ -128,9 +92,9 @@ struct GrowingButtonStyle: ButtonStyle {
             .fontWeight(.semibold)
             .foregroundColor(.white)
             .padding()
-            .background(Color.blue
-            .cornerRadius(10)
-            .shadow(radius: 10))
+            .background(Color("buttonColor")
+                .cornerRadius(10)
+                .shadow(radius: 10))
             .scaleEffect(configuration.isPressed ? 1.2 : 1)
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }

@@ -10,6 +10,9 @@ import SwiftUI
 struct RegisterView: View {
     
     @ObservedObject var validator = RegisterValidator()
+    @ObservedObject var server = ServerCommunication()
+    
+    @State var registerSuccess = false
     
     @Binding var isShow: Bool
 
@@ -18,7 +21,7 @@ struct RegisterView: View {
         ZStack(alignment: .topLeading) {
             
             Rectangle()
-                .fill(Color.white)
+                .fill(Color("bgColor"))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.all)
             register
@@ -58,7 +61,7 @@ struct RegisterView: View {
                 HStack {
                     Button(action: {
                         if(validator.isSignUpComplete){
-                            self.registerUser()
+                            registerSuccess = server.registerUser(Name: validator.name, Username: validator.username, Password: validator.password, Address: validator.address, Email: validator.email)
                         }
                     }, label: {
                     })
@@ -70,41 +73,7 @@ struct RegisterView: View {
     }
     
     
-    func registerUser(){
-        guard let url = URL(string:"http://localhost:8080/save")else{
-            print("Not found url")
-            return
-        }
-        
-        let newUser = User(name: validator.name, username: validator.username, password: validator.password, address: validator.address, email: validator.email)
-        let json = try! JSONEncoder().encode(newUser)
-        print(json)
-        var request = URLRequest(url:url)
-        request.httpMethod = "POST"
-        request.httpBody = json
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-       URLSession.shared.dataTask(with: request){
-           data, response, error in
-            
-            
-            if let data = data{
-            do{
-                let result = try JSONDecoder().decode([User].self, from: data)
-                DispatchQueue.main.async {
-                    print(result)
-                }
-                
-            }
-            catch{
-                print(error)
-            }
-                
-            }
-        }.resume()
-        
-    }
+    
 }
 
 struct EntryField: View{
