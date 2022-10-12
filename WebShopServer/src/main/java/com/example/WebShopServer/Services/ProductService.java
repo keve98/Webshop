@@ -21,8 +21,11 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public List<Product> getProductsByCompanyId(String companyid){
-        return productRepository.findProductByCompanyId(companyid);
+    public List<Product> getProductsByUserId(int userid){
+        return productRepository.findProductByUserId(userid);
     }
 
+    public List<Product> getProductsForCategory(int categoryid) {
+        return productRepository.findProductsForCategory(categoryid);
+    }
 }

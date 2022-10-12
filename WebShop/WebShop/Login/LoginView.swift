@@ -15,17 +15,15 @@ struct LoginView: View {
     @State var showingAlertSuccess = false
     @State var showingAlertFail = false
     @State var loginSuccess = false
-    @State private var active: Bool = false
+    @State var active: Bool = false
     @Binding var isShow: Bool
     
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(Color("bgColor"))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .edgesIgnoringSafeArea(.all)
-            NavigationView{
+            //NavigationView{
+                Color("bgColor")
+                    .ignoresSafeArea(.all)
                 VStack {
                     Spacer()
                     Text("WELCOME")
@@ -53,10 +51,9 @@ struct LoginView: View {
                             Button(action: {
                                 if validator.isLoginComplete{
                                     server.login(userName: validator.username, pw: validator.password)
-                                    if !ServerCommunication.loggedInUser.name.isEmpty{
-                                        active = true
+                                    if(ServerCommunication.loginSuccess){
+                                        self.active.toggle()	
                                     }
-                                
                                 }
                             }, label: {
                                 
@@ -75,7 +72,7 @@ struct LoginView: View {
                     Spacer()
                 }.padding(30)
             }
-        }
+        //}
     }
     
 }

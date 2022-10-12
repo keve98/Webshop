@@ -24,12 +24,19 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(){
         List<Product> products = productService.getAllProducts();
+        System.out.println("Get all products");
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/products/search")
-    public ResponseEntity<List<Product>> getProductsByCompanyId(@QueryParam("companyid") String companyid){
-        List<Product> products = productService.getProductsByCompanyId(companyid);
+    public ResponseEntity<List<Product>> getProductsByUserId(@QueryParam("userid") int userid){
+        List<Product> products = productService.getProductsByUserId(userid);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/findCategory")
+    public ResponseEntity<List<Product>> getProductsForCategory(@QueryParam("categoryid") int categoryid){
+        List<Product> products = productService.getProductsForCategory(categoryid);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

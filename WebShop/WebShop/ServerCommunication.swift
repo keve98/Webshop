@@ -8,21 +8,20 @@
 import Foundation
 import SwiftUI
 
-class ServerCommunication : ObservableObject{
-    
-    @Published var products=[Product]()
-    
+class ServerCommunication : ObservableObject{    
     @Published var baseUrl: String = "http://localhost:8080/"
     
     static var loggedInUser : User = User(name: "", username: "", password: "", address: "", email: "")
+    static var loginSuccess = false
     
-    func getAllProducts(){
+    
+    func getAllProducts(completion:@escaping([Product]) ->()){
         guard let url = URL(string:baseUrl+"products")else{
             return
         }
         
         let task = URLSession.shared.dataTask(with: url){
-            [weak self] data, response, error in
+             data, response, error in
             
             
             //convert to JSON
@@ -30,7 +29,7 @@ class ServerCommunication : ObservableObject{
                 do{
                     let products = try JSONDecoder().decode([Product].self, from: data)
                     DispatchQueue.main.async {
-                        self?.products = products
+                        completion(products)
                     }
                     
                 }
@@ -69,6 +68,7 @@ class ServerCommunication : ObservableObject{
                     DispatchQueue.main.async {
                         ServerCommunication.loggedInUser = result
                     }
+                    ServerCommunication.loginSuccess = true
                 }
                 catch{
                     print(error)
@@ -116,6 +116,62 @@ class ServerCommunication : ObservableObject{
             }
         }.resume()
         return registerSucessful
+    }
+    
+    func getAllCategories(completion:@escaping([Category]) ->()){
+        guard let url = URL(string:baseUrl + "categories")else{
+            print("Not found url")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+             data, response, error in
+            
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let categories = try JSONDecoder().decode([Category].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(categories)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getProductsForCategory(categoryid: Int, completion:@escaping([Product]) ->()){
+        guard let url = URL(string:baseUrl+"products/findCategory?categoryid="+String(categoryid))else{
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+            data, response, error in
+            
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    DispatchQueue.main.async {
+                        //ServerCommunication.products = products
+                        completion(products)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
     }
     
 }

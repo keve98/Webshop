@@ -8,7 +8,6 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    //@SequenceGenerator(name="UserSequence", sequenceName="sequserid", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iduser")
     private Long Id;

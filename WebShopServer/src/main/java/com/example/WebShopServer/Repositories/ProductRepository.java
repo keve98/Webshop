@@ -16,6 +16,10 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query(value = "select p from Product p order by p.Id")
     List<Product> findAll();
 
-    @Query(value = "select p from Product p where p.CompanyId like :#{#companyid}")
-    List<Product> findProductByCompanyId(@Param("companyid") String companyid);
+    @Query(value = "select p from Product p where p.UserId = :userid")
+    List<Product> findProductByUserId(@Param("userid") int userid);
+
+
+    @Query(value = "select p from Product p where p.CategoryId = :categoryid")
+    List<Product> findProductsForCategory(@Param("categoryid") int categoryid);
 }

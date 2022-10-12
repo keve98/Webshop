@@ -20,7 +20,7 @@ class RegisterValidator:ObservableObject{
     }
     
     func isPasswordValid() -> Bool {
-        let passwordTest = NSPredicate(format: "SELF MATCHES %@",                                     "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$")
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@","^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$")
         return passwordTest.evaluate(with: password)
     }
     

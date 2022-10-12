@@ -24,8 +24,11 @@ public class Product {
     @Column(name = "currency")
     private String Currency;
 
-    @Column(name = "companyid")
-    private String CompanyId;
+    @Column(name = "userid")
+    private int UserId;
+
+    @Column(name = "categoryid")
+    private int CategoryId;
 
 
     public Long getId() {
@@ -48,7 +51,11 @@ public class Product {
         return Currency;
     }
 
-    public String getCompanyId() {
-        return CompanyId;
+    public int getUserId() {
+        return UserId;
+    }
+
+    public int getCategoryId() {
+        return CategoryId;
     }
 }

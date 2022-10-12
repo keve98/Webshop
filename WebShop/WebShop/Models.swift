@@ -8,17 +8,22 @@
 import Foundation
 import SwiftUI
 
+struct Category: Codable, Hashable, Identifiable{
+    let name: String
+    let id: Int
+}
+
 struct Products: Codable{
     let products: [Product]
 }
 
-struct Product: Codable, Hashable{
+struct Product: Codable, Hashable, Identifiable{
     let name: String
     let id: Int
     let price: Int
-    let description: String
+    let description: String?
     let currency: String
-    let companyId: Int
+    let userId: Int
 }
 
 struct User: Codable{
