@@ -3,6 +3,7 @@ package com.example.WebShopServer.Controllers;
 import com.example.WebShopServer.Models.Product;
 import com.example.WebShopServer.Services.ProductService;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,12 @@ public class ProductController {
     @GetMapping("/products/findCategory")
     public ResponseEntity<List<Product>> getProductsForCategory(@QueryParam("categoryid") int categoryid){
         List<Product> products = productService.getProductsForCategory(categoryid);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/news")
+    public ResponseEntity<List<Product>> getNewProductsByDateTime(@QueryParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        List<Product> products = productService.getNewProductsForDateTime(date);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

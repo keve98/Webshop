@@ -5,6 +5,7 @@ import com.example.WebShopServer.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,5 +28,9 @@ public class ProductService {
 
     public List<Product> getProductsForCategory(int categoryid) {
         return productRepository.findProductsForCategory(categoryid);
+    }
+
+    public List<Product> getNewProductsForDateTime(Date date){
+        return productRepository.findNewProductsForDateTime(date);
     }
 }

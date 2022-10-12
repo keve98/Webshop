@@ -27,8 +27,10 @@ struct Home: View{
                     }).hidden()
                 
                 LoginView(isShow: self.$isShow)
-            }
-        }
+            }.navigationBarTitle("")
+                .navigationBarHidden(true)
+        }.navigationBarTitle("")
+            .navigationBarHidden(true)
     }
 }
 

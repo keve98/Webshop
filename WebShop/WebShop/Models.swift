@@ -24,6 +24,7 @@ struct Product: Codable, Hashable, Identifiable{
     let description: String?
     let currency: String
     let userId: Int
+    let dateTime: String
 }
 
 struct User: Codable{

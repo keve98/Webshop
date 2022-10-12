@@ -1,6 +1,7 @@
 package com.example.WebShopServer.Models;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "product")
@@ -30,6 +31,9 @@ public class Product {
     @Column(name = "categoryid")
     private int CategoryId;
 
+    @Column(name = "createdtime")
+    private Date dateTime;
+
 
     public Long getId() {
         return Id;
@@ -57,5 +61,9 @@ public class Product {
 
     public int getCategoryId() {
         return CategoryId;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
     }
 }

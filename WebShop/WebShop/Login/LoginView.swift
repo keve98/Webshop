@@ -20,8 +20,12 @@ struct LoginView: View {
     
     
     var body: some View {
+        GeometryReader{geometry in
+        NavigationLink(destination: HomePageView(),
+                       isActive: self.$active,
+                       label: {
+                        Text("")}).hidden()
         ZStack {
-            //NavigationView{
                 Color("bgColor")
                     .ignoresSafeArea(.all)
                 VStack {
@@ -47,19 +51,21 @@ struct LoginView: View {
                     }.padding(.bottom, 15)
                     
                     HStack {
-                        NavigationLink(destination: HomePageView(), isActive: $active){
+                        
                             Button(action: {
                                 if validator.isLoginComplete{
-                                    server.login(userName: validator.username, pw: validator.password)
-                                    if(ServerCommunication.loginSuccess){
-                                        self.active.toggle()	
-                                    }
+                                    server.login(userName: validator.username, pw: validator.password, completion: {
+                                        (value) in
+                                            self.active = value
+                                    })
+                                    /*if(ServerCommunication.loginSuccess){
+                                        self.active.toggle()
+                                    }*/
                                 }
                             }, label: {
-                                
                             })
                             .buttonStyle(GrowingButtonStyle(buttonText: "LOGIN"))
-                        }
+                        
                     }.padding(.bottom, 15)
                     
                     HStack {
@@ -72,12 +78,11 @@ struct LoginView: View {
                     Spacer()
                 }.padding(30)
             }
-        //}
     }
     
 }
 
-
+}
 
 
 struct GrowingButtonStyle: ButtonStyle {

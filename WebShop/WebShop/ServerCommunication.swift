@@ -42,7 +42,7 @@ class ServerCommunication : ObservableObject{
         task.resume()
     }
     
-    func login(userName: String, pw: String){
+    func login(userName: String, pw: String, completion:@escaping(Bool) ->()){
         
         
         guard let url = URL(string: baseUrl + "login")else{
@@ -67,6 +67,7 @@ class ServerCommunication : ObservableObject{
                     let result = try JSONDecoder().decode(User.self, from: data)
                     DispatchQueue.main.async {
                         ServerCommunication.loggedInUser = result
+                        completion(true)
                     }
                     ServerCommunication.loginSuccess = true
                 }
@@ -172,6 +173,47 @@ class ServerCommunication : ObservableObject{
         }
         
         task.resume()
+    }
+    
+    func getNewProducts(completion:@escaping([Product]) ->()){
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        let yearString = dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "MM"
+        let monthString = dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "dd"
+        let dayString = dateFormatter.string(from: date)
+        guard let url = URL(string:baseUrl+"products/news?date="+yearString+"-"+monthString+"-"+dayString)else{
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+            data, response, error in
+            
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(products)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func logout(){
+        ServerCommunication.loggedInUser = User(name: "", username: "", password: "", address: "", email: "")
+        ServerCommunication.loginSuccess = false
+        
     }
     
 }

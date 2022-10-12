@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,4 +23,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Query(value = "select p from Product p where p.CategoryId = :categoryid")
     List<Product> findProductsForCategory(@Param("categoryid") int categoryid);
+
+    @Query(value = "select p from Product p where p.dateTime >= :createdDateTime")
+    List<Product> findNewProductsForDateTime(@Param("createdDateTime") Date createdDateTime);
 }
