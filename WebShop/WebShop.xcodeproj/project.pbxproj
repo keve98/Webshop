@@ -19,6 +19,8 @@
 		D197F3B528EF336100765590 /* LoginValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197F3B428EF336100765590 /* LoginValidator.swift */; };
 		D197F3B728EF411A00765590 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197F3B628EF411A00765590 /* HomePageView.swift */; };
 		D197F3B928EF6AAC00765590 /* ServerCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197F3B828EF6AAB00765590 /* ServerCommunication.swift */; };
+		D19F6AB02903FBE0000E7952 /* ProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19F6AAF2903FBE0000E7952 /* ProductDetailsView.swift */; };
+		D1A9376E29019086003199AD /* ProfilePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A9376D29019086003199AD /* ProfilePageView.swift */; };
 		D1C72EB028F5E3B20089BB22 /* CustomUIitems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C72EAF28F5E3B20089BB22 /* CustomUIitems.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,8 @@
 		D197F3B428EF336100765590 /* LoginValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidator.swift; sourceTree = "<group>"; };
 		D197F3B628EF411A00765590 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		D197F3B828EF6AAB00765590 /* ServerCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommunication.swift; sourceTree = "<group>"; };
+		D19F6AAF2903FBE0000E7952 /* ProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsView.swift; sourceTree = "<group>"; };
+		D1A9376D29019086003199AD /* ProfilePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageView.swift; sourceTree = "<group>"; };
 		D1C72EAF28F5E3B20089BB22 /* CustomUIitems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIitems.swift; sourceTree = "<group>"; };
 		D48A6457EA2D4EC14F6DFD72 /* Pods-WebShop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebShop.release.xcconfig"; path = "Target Support Files/Pods-WebShop/Pods-WebShop.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +78,8 @@
 				D197F3B628EF411A00765590 /* HomePageView.swift */,
 				D10D8BC328EB4C0F0023CAE8 /* ContentView.swift */,
 				D14FA70528F6E38A00B366B2 /* SideMenuView.swift */,
+				D1A9376D29019086003199AD /* ProfilePageView.swift */,
+				D19F6AAF2903FBE0000E7952 /* ProductDetailsView.swift */,
 			);
 			path = FunctionViews;
 			sourceTree = "<group>";
@@ -235,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D10D8BC228EB3D0C0023CAE8 /* LoginView.swift in Sources */,
+				D1A9376E29019086003199AD /* ProfilePageView.swift in Sources */,
 				D10D8BC428EB4C0F0023CAE8 /* ContentView.swift in Sources */,
 				D10D8BC828EB81AE0023CAE8 /* Models.swift in Sources */,
 				D197F3B128EF28FA00765590 /* RegisterValidator.swift in Sources */,
@@ -243,6 +250,7 @@
 				D1C72EB028F5E3B20089BB22 /* CustomUIitems.swift in Sources */,
 				D189B82028D4AFE600022137 /* WebShopApp.swift in Sources */,
 				D197F3B528EF336100765590 /* LoginValidator.swift in Sources */,
+				D19F6AB02903FBE0000E7952 /* ProductDetailsView.swift in Sources */,
 				D197F3B728EF411A00765590 /* HomePageView.swift in Sources */,
 				D10D8BC628EB4CF30023CAE8 /* RegisterView.swift in Sources */,
 			);

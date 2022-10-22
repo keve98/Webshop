@@ -10,13 +10,13 @@ import SwiftUI
 struct SideMenuView: View {
     
     let logoutAction: () -> Void
+    let navigateToProfileAction: () -> Void
     
     var body: some View {
         NavigationView{
         VStack(alignment: .leading) {
             HStack {
-                
-                Button(action: {}, label: {
+                Button(action: navigateToProfileAction, label: {
                     Image(systemName: "person")
                         .foregroundColor(.black)
                         .imageScale(.large)
@@ -51,6 +51,6 @@ struct SideMenuView: View {
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuView(logoutAction: {})
+        SideMenuView(logoutAction: {}, navigateToProfileAction: {})
     }
 }

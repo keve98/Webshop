@@ -21,7 +21,7 @@ struct Product: Codable, Hashable, Identifiable{
     let name: String
     let id: Int
     let price: Int
-    let description: String?
+    let description: String
     let currency: String
     let userId: Int
     let dateTime: String

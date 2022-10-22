@@ -17,7 +17,10 @@ struct HomePageView: View {
     @State var showMenu = false
     
     @State var navigateToLogout = false
+    @State var navigateToProfile = false
+    @State var navigateToDetailsPage = false
     
+    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", userId: 0, dateTime: "")
     
     var body: some View {
         GeometryReader{geometry in
@@ -27,6 +30,18 @@ struct HomePageView: View {
                     label: {
                         Text("")
                     }).hidden()
+                NavigationLink(
+                    destination: ProfilePageView(),
+                    isActive: self.$navigateToProfile,
+                    label: {
+                        Text("")
+                    }).hidden()
+            NavigationLink(
+                destination: ProductDetailsView(product: product),
+                isActive: self.$navigateToDetailsPage,
+                label: {
+                    Text("")
+                }).hidden()
             ZStack(alignment: .leading){
                     
                     Color("bgColor")
@@ -117,6 +132,9 @@ struct HomePageView: View {
                                             .font(.custom("AmericanTypewriter", size: 14))
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .padding([.trailing])
+                                    }.onTapGesture{
+                                        self.product = product
+                                        self.navigateToDetailsPage.toggle()
                                     }
                                     Color("buttonColor")
                                         .frame(width: .infinity, height: 2)
@@ -124,6 +142,7 @@ struct HomePageView: View {
                                 }.padding([.leading, .trailing], 6)
                                 
                             }
+                            .padding(.bottom, 5)
                             .onAppear{
                                 ServerCommunication().getAllProducts{(products) in
                                     self.products = products
@@ -159,6 +178,8 @@ struct HomePageView: View {
                 SideMenuView(logoutAction: {
                     HomePageView.server.logout()
                     self.navigateToLogout.toggle()
+                }, navigateToProfileAction: {
+                    self.navigateToProfile.toggle()
                 }).frame(width: geometry.size.width/3)
             }
             }.background(Color("bgColor"))
