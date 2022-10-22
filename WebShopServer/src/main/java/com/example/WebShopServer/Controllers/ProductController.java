@@ -48,4 +48,16 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    @GetMapping("/products/findName")
+    public ResponseEntity<List<Product>> getProductsBySearchText(@QueryParam("str") String str){
+        List<Product> products = productService.getProductsBySearchText(str);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/findNameAndCat")
+    public ResponseEntity<List<Product>> getProductsBySearchTextAndCategoryId(@QueryParam("str") String str, @QueryParam("categoreyid") int categoryid){
+        List<Product> products = productService.getProductsBySearchTextAndCategoryId(str, categoryid);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
 }

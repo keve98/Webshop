@@ -26,4 +26,10 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Query(value = "select p from Product p where p.dateTime >= :createdDateTime")
     List<Product> findNewProductsForDateTime(@Param("createdDateTime") Date createdDateTime);
+
+    @Query(value = "select p from Product p where p.Name like %:str%")
+    List<Product> findProductsBySearchText(@Param("str") String str);
+
+    @Query(value = "select p from Product p where p.Name like %:str% and p.CategoryId = :categoryid")
+    List<Product> findProductsBySearchTextAndCategory(@Param("str") String str, @Param("categoryid") int categoryid);
 }

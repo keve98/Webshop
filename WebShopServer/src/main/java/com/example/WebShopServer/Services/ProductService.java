@@ -33,4 +33,12 @@ public class ProductService {
     public List<Product> getNewProductsForDateTime(Date date){
         return productRepository.findNewProductsForDateTime(date);
     }
+
+    public List<Product> getProductsBySearchText(String str) {
+        return productRepository.findProductsBySearchText(str);
+    }
+
+    public List<Product> getProductsBySearchTextAndCategoryId(String str, int categoryid) {
+        return productRepository.findProductsBySearchTextAndCategory(str, categoryid);
+    }
 }
