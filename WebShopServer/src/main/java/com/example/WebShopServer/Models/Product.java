@@ -8,8 +8,7 @@ import java.util.Date;
 public class Product {
 
     @Id
-    @SequenceGenerator(name="ProductSequence", sequenceName="seqproductid", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="ProductSequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idproduct")
     private Long Id;
 

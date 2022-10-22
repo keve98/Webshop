@@ -7,8 +7,7 @@ import javax.persistence.*;
 public class Company {
 
     @Id
-    @SequenceGenerator(name="CompanySequence", sequenceName="seqcompanyid", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator ="CompanySequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "idcompany")
     private Long Id;
 
