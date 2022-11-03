@@ -12,6 +12,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -34,6 +35,9 @@ public class UserService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public Optional<User> getUserById(Long id){
+        return userRepository.findById(id);
+    }
     public void saveUser(User user){
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);

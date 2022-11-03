@@ -12,18 +12,19 @@ struct ProductDetailsView: View {
     let product : Product
     
     
+    @Binding var cartItems : [OrderProduct]
+    @State var quantity : Int = 1
+    
     var body: some View {
         ZStack{
             ScrollView{
-                
-                
                 Image("product")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .edgesIgnoringSafeArea(.top)
                 
                 
-                DescriptionView(product: product)
+                DescriptionView(product: product, quantity: self.$quantity)
                     .offset(y: -40)
                 
             }
@@ -35,7 +36,10 @@ struct ProductDetailsView: View {
                     .foregroundColor(Color("bgColor"))
                 Spacer()
                 
-                Button(action: {}, label: {
+                Button(action: {
+                    let op = OrderProduct(id: 0, quantity: self.quantity, invoice: nil, product: self.product)
+                    self.cartItems.append(op)
+                }, label: {
                     Text("Add to cart")
                         .padding()
                         .padding(.horizontal)
@@ -51,13 +55,6 @@ struct ProductDetailsView: View {
                 .frame(maxHeight: .infinity, alignment: .bottom)
         }
         .edgesIgnoringSafeArea(.bottom)
-    }
-}
-
-struct ProductDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        let p = Product(name: "Banana", id: 0, price: 500, description: "All of the monkeys love banana", currency: "HUF", userId: 0, dateTime: "2022-02-02")
-        ProductDetailsView(product: p)
     }
 }
 
@@ -79,7 +76,7 @@ extension View{
 
 struct DescriptionView: View {
     let product : Product
-    @State var quantity = 1
+    @Binding var quantity : Int
     var body: some View {
         ZStack{
             VStack(alignment: .leading){
@@ -91,7 +88,7 @@ struct DescriptionView: View {
                     .fontWeight(.medium)
                     .padding(.vertical, 8)
                 
-                Text(product.description)
+                Text(product.description!)
                     .padding(.bottom)
                     .font(.custom("AmericanTypeWriter", size: 20))
                     .lineSpacing(8.0)

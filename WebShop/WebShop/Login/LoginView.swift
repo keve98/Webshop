@@ -58,9 +58,6 @@ struct LoginView: View {
                                         (value) in
                                             self.active = value
                                     })
-                                    /*if(ServerCommunication.loginSuccess){
-                                        self.active.toggle()
-                                    }*/
                                 }
                             }, label: {
                             })

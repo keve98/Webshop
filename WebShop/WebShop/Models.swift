@@ -13,21 +13,29 @@ struct Category: Codable, Hashable, Identifiable{
     let id: Int
 }
 
-struct Products: Codable{
-    let products: [Product]
-}
-
-struct Product: Codable, Hashable, Identifiable{
+struct Product: Codable, Hashable, Identifiable, Equatable{
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     let name: String
     let id: Int
     let price: Int
-    let description: String
+    let description: String?
     let currency: String
-    let userId: Int
+    let user: User?
     let dateTime: String
 }
 
-struct User: Codable{
+struct User: Codable, Equatable{
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
+    let id: Int
     let name: String
     let username: String
     let password: String
@@ -35,3 +43,30 @@ struct User: Codable{
     let email: String
 }
 
+
+struct OrderProduct: Codable, Hashable, Identifiable, Equatable{
+    static func == (lhs: OrderProduct, rhs: OrderProduct) -> Bool {
+        return lhs.invoice == rhs.invoice && lhs.product == rhs.product
+    }
+    
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    let id : Int
+    let quantity : Int
+    let invoice: Invoice?
+    let product : Product
+}
+
+struct Invoice: Codable, Hashable{
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    let id : Int
+    let user : User
+    let amount : Int
+}

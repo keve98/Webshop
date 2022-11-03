@@ -1,7 +1,6 @@
 package com.example.WebShopServer.Repositories;
 
 
-import com.example.WebShopServer.Models.Product;
 import com.example.WebShopServer.Models.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -20,6 +20,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "select m from User m where m.username like :#{#txt}")
     User findByName(@Param("txt") String txt);
+
+    @Query(value = "select m from User m where m.Id = :userid")
+    Optional<User> findById(@Param("userid") Long id);
 
     @Transactional
     @Modifying

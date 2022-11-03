@@ -1,10 +1,17 @@
 package com.example.WebShopServer.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({"hibernateLazyInitializer","products", "invoices"})
 public class User {
 
     @Id
@@ -32,6 +39,14 @@ public class User {
 
     @Column(name = "isenabled")
     private boolean IsEnabled;
+
+    @OneToMany(mappedBy = "user")
+    private List<Product> products;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Invoice> invoices;
 
     public User(){};
     public User(String name, String username, String address, String email, String password) {

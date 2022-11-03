@@ -18,4 +18,12 @@ public class OrderProductService {
     }
 
     public List<OrderProduct> getAllOrderProducts(){return orderProductRepository.findAll();}
+
+    public List<OrderProduct> getOrderProductsByInvoiceId(int invoiceid) {
+        return orderProductRepository.findOrderProductsByInvoiceId(invoiceid);
+    }
+
+    public void saveOrderProduct(OrderProduct newOrderProductEntity) {
+        orderProductRepository.save(newOrderProductEntity);
+    }
 }

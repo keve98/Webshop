@@ -26,7 +26,7 @@ public class ProductService {
         return productRepository.findProductByUserId(userid);
     }
 
-    public List<Product> getProductsForCategory(int categoryid) {
+    public List<Product> getProductsForCategory(Long categoryid) {
         return productRepository.findProductsForCategory(categoryid);
     }
 
@@ -40,5 +40,9 @@ public class ProductService {
 
     public List<Product> getProductsBySearchTextAndCategoryId(String str, int categoryid) {
         return productRepository.findProductsBySearchTextAndCategory(str, categoryid);
+    }
+
+    public void saveProduct(Product newProduct) {
+        productRepository.save(newProduct);
     }
 }

@@ -18,4 +18,8 @@ public class InvoiceService {
     }
 
     public List<Invoice> getAllInvoices(){return invoiceRepository.findAll();}
+
+    public void saveInvoice(Invoice newInvoiceEntity) {
+        invoiceRepository.save(newInvoiceEntity);
+    }
 }

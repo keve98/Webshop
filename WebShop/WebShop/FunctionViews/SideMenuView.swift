@@ -11,6 +11,7 @@ struct SideMenuView: View {
     
     let logoutAction: () -> Void
     let navigateToProfileAction: () -> Void
+    let navigateToPreviousOrders: () -> Void
     
     var body: some View {
         NavigationView{
@@ -28,6 +29,18 @@ struct SideMenuView: View {
                 
             }
             
+            HStack{
+                Button(action: navigateToPreviousOrders, label: {
+                    Image(systemName: "doc")
+                        .foregroundColor(.black)
+                        .imageScale(.large)
+                    Text("Previous orders")
+                        .foregroundColor(.black)
+                        .font(.headline)
+                }).padding([.leading, .bottom, .trailing])
+                    //.padding(.top, 5)
+            }
+            
             HStack {
                     Button(action: logoutAction, label: {
                         Image(systemName: "arrow.backward.square")
@@ -37,7 +50,7 @@ struct SideMenuView: View {
                                .foregroundColor(.black)
                                .font(.headline)
                     }).padding([.leading, .bottom, .trailing])
-                        .padding(.top, 5)
+                       // .padding(.top, 5)
             }
             Spacer()
         }
@@ -51,6 +64,6 @@ struct SideMenuView: View {
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuView(logoutAction: {}, navigateToProfileAction: {})
+        SideMenuView(logoutAction: {}, navigateToProfileAction: {}, navigateToPreviousOrders: {})
     }
 }

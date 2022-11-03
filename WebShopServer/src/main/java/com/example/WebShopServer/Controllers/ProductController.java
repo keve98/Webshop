@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/findCategory")
-    public ResponseEntity<List<Product>> getProductsForCategory(@QueryParam("categoryid") int categoryid){
+    public ResponseEntity<List<Product>> getProductsForCategory(@QueryParam("categoryid") Long categoryid){
         List<Product> products = productService.getProductsForCategory(categoryid);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
@@ -58,6 +58,14 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsBySearchTextAndCategoryId(@QueryParam("str") String str, @QueryParam("categoreyid") int categoryid){
         List<Product> products = productService.getProductsBySearchTextAndCategoryId(str, categoryid);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/product/save")
+    public ResponseEntity<Product> saveProduct(@RequestBody Product newProduct){
+        Product newProductEntity = new Product(newProduct.getName(), newProduct.getPrice(), newProduct.getDescription(), newProduct.getCurrency(), newProduct.getUser(), newProduct.getCategory());
+        productService.saveProduct(newProductEntity);
+
+        return new ResponseEntity<>(newProductEntity, HttpStatus.OK);
     }
 
 }

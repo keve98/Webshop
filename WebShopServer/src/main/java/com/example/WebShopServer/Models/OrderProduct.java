@@ -14,11 +14,21 @@ public class OrderProduct {
     @Column(name = "quantity")
     private int Quantity;
 
-    @Column(name = "invoiceid")
-    private Long InvoiceId;
+    @ManyToOne
+    @JoinColumn(name = "invoiceid")
+    private Invoice invoice;
 
-    @Column(name = "productid")
-    private Long ProductId;
+    @ManyToOne
+    @JoinColumn(name = "productid")
+    private Product product;
+
+    public OrderProduct(){}
+
+    public OrderProduct(int quantity, Invoice invoice, Product product) {
+        Quantity = quantity;
+        this.invoice = invoice;
+        this.product = product;
+    }
 
     public Long getId() {
         return Id;
@@ -28,11 +38,11 @@ public class OrderProduct {
         return Quantity;
     }
 
-    public Long getInvoiceId() {
-        return InvoiceId;
+    public Invoice getInvoice() {
+        return invoice;
     }
 
-    public Long getProductId() {
-        return ProductId;
+    public Product getProduct() {
+        return product;
     }
 }

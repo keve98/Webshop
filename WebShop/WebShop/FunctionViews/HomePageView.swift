@@ -13,14 +13,17 @@ struct HomePageView: View {
     @State var products: [Product] = []
     @State var news: [Product] = []
     @State var categories: [Category] = []
-    @State private var selectedCategoryIndex: Int = 1
-    @State var showMenu = false
+    @State var cartItems: [OrderProduct] = []
+    @State private var selectedCategoryIndex: Int = 4
     
+    @State var showMenu = false
     @State var navigateToLogout = false
     @State var navigateToProfile = false
     @State var navigateToDetailsPage = false
+    @State var navigateToCart = false
+    @State var navigateToPreviousOrders = false
     
-    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", userId: 0, dateTime: "")
+    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", user: ServerCommunication.loggedInUser, dateTime: "")
     
     var body: some View {
         GeometryReader{geometry in
@@ -37,11 +40,23 @@ struct HomePageView: View {
                         Text("")
                     }).hidden()
             NavigationLink(
-                destination: ProductDetailsView(product: product),
+                destination: ProductDetailsView(product: product, cartItems: self.$cartItems),
                 isActive: self.$navigateToDetailsPage,
                 label: {
                     Text("")
                 }).hidden()
+            NavigationLink(
+                destination: CartView(cartItems: self.$cartItems),
+                isActive: self.$navigateToCart,
+                label: {
+                    Text("")
+                }).hidden()
+            NavigationLink(
+                destination: PreviousOrdersView(),
+                isActive: self.$navigateToPreviousOrders,
+                label: {
+                Text("")
+            }).hidden()
             ZStack(alignment: .leading){
                     
                     Color("bgColor")
@@ -65,7 +80,7 @@ struct HomePageView: View {
                                         .onTapGesture {
                                             self.products = []
                                             selectedCategoryIndex = category.id
-                                            if category.id == 1{
+                                            if category.id == 4{
                                                 ServerCommunication().getAllProducts{(products) in
                                                     self.products = products
                                                 }
@@ -159,10 +174,12 @@ struct HomePageView: View {
                         .navigationBarHidden(true)
                     
                     HStack{
-                        ButtonNavBarItem(imageName: "home", action: {})
-                        ButtonNavBarItem(imageName: "cart", action: {})
-                    }.padding()
-                        .background(Color.white)
+                        ButtonNavBarItem(imageName: "home", action: {}, foregroundColor: Color("buttonColor"))
+                        ButtonNavBarItem(imageName: "cart", action: {
+                            withAnimation{
+                                self.navigateToCart.toggle()}
+                        }, foregroundColor: Color.white)
+                    }   .background(Color.white)
                         .clipShape(Capsule())
                         .padding(.horizontal)
                         .shadow(color: Color.black.opacity(0.15), radius: 8, x: 2, y: 6)
@@ -180,6 +197,8 @@ struct HomePageView: View {
                     self.navigateToLogout.toggle()
                 }, navigateToProfileAction: {
                     self.navigateToProfile.toggle()
+                }, navigateToPreviousOrders: {
+                    self.navigateToPreviousOrders.toggle()
                 }).frame(width: geometry.size.width/3)
             }
             }.background(Color("bgColor"))
@@ -279,12 +298,19 @@ struct ProductListViewImage : View{
 struct ButtonNavBarItem: View{
     let imageName: String
     let action: ()-> Void
+    let foregroundColor: Color
     
     var body: some View{
-        Button(action: action, label: {
+        Button(action: action){
             Image(imageName)
+                .resizable()
+                .frame(width: 15, height: 15)
                 .frame(maxWidth: .infinity)
-        })
+                .padding()
+                .background(foregroundColor)
+                .cornerRadius(10)
+                
+        }
     }
 }
 

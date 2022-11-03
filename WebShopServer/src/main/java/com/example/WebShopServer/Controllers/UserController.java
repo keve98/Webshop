@@ -23,7 +23,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/user/save")
     public ResponseEntity<User> saveUser(@RequestBody User newData) throws Exception{
         System.out.println(newData.toString());
 
