@@ -14,7 +14,9 @@ struct HomePageView: View {
     @State var news: [Product] = []
     @State var categories: [Category] = []
     @State var cartItems: [OrderProduct] = []
+    @State private var allItemsCategoryIndex: Int = 4
     @State private var selectedCategoryIndex: Int = 4
+    @State private var search: String = ""
     
     @State var showMenu = false
     @State var navigateToLogout = false
@@ -46,7 +48,7 @@ struct HomePageView: View {
                     Text("")
                 }).hidden()
             NavigationLink(
-                destination: CartView(cartItems: self.$cartItems),
+                destination: CartView(cartItems: self.$cartItems, invoice: nil),
                 isActive: self.$navigateToCart,
                 label: {
                     Text("")
@@ -70,7 +72,35 @@ struct HomePageView: View {
                             }
                         })
                         TagLineView().padding()
-                        SearchBarView()
+                        
+                        //SEARCH BAR VIEW
+                        
+                            HStack{
+                                Button(action: {
+                                    self.products = []
+                                    if selectedCategoryIndex == allItemsCategoryIndex{
+                                        ServerCommunication().getAllProductsBySearchString(str: self.search, completion: {
+                                            (products) in
+                                            self.products = products
+                                        })
+                                    }else{
+                                        ServerCommunication().getAllProductsBySearchStringAndCategory(str: self.search, categoryid: self.selectedCategoryIndex, completion: {
+                                            (products) in
+                                            self.products = products
+                                        })
+                                    }
+                                }, label: {
+                                    Image("search")
+                                        .padding(.trailing, 8)
+                                })
+                                
+                                TextField("Search product", text: $search)
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10.0)
+                            .padding(.horizontal)
+                        
                         
                         //CATEGORY LISTVIEW
                         ScrollView(.horizontal, showsIndicators: false){
@@ -80,7 +110,7 @@ struct HomePageView: View {
                                         .onTapGesture {
                                             self.products = []
                                             selectedCategoryIndex = category.id
-                                            if category.id == 4{
+                                            if category.id == allItemsCategoryIndex{
                                                 ServerCommunication().getAllProducts{(products) in
                                                     self.products = products
                                                 }
@@ -230,22 +260,6 @@ struct TagLineView:View{
     var body: some View{
         Text("Find the best products!")
             .font(.custom("AmericanTypewriter", size: 28))
-    }
-}
-
-struct SearchBarView : View {
-    @State private var search: String = ""
-    
-    var body: some View{
-        HStack{
-            Image("search")
-                .padding(.trailing, 8)
-            TextField("Search product", text: $search)
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10.0)
-        .padding(.horizontal)
     }
 }
 

@@ -42,6 +42,62 @@ class ServerCommunication : ObservableObject{
         task.resume()
     }
     
+    func getAllProductsBySearchString(str: String, completion:@escaping([Product]) ->()){
+        guard let url = URL(string:baseUrl+"products/findName?str=" + str)else{
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+             data, response, error in
+            
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(products)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getAllProductsBySearchStringAndCategory(str: String, categoryid: Int, completion:@escaping([Product]) ->()){
+        guard let url = URL(string:baseUrl+"products/findName?str=" + str + "&categoryid=" + String(categoryid))else{
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+             data, response, error in
+            
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(products)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+        
+        
+    }
+    
     func login(userName: String, pw: String, completion:@escaping(Bool) ->()){
         
         
@@ -78,15 +134,14 @@ class ServerCommunication : ObservableObject{
         }.resume()
     }
     
-    func saveInvoice(user: User, amount: Int){
-        guard let url = URL(string:baseUrl + "invoice/save")else{
+    func saveInvoice(user: User, amount: Int, completion:@escaping(Invoice) ->()) {
+        guard let url = URL(string:baseUrl + "invoice/save?userid=" + String(user.id))else{
             print("Not found url")
             return
         }
         
-        let newInvoice = Invoice(id: 0, user: user, amount: amount)
+        let newInvoice = Invoice(id: 0, amount: amount, orderProducts: nil, user: user)
         let json = try! JSONEncoder().encode(newInvoice)
-        print(String(data: json, encoding: .utf8))
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = json
@@ -100,6 +155,7 @@ class ServerCommunication : ObservableObject{
                     let result = try JSONDecoder().decode(Invoice.self, from: data)
                     DispatchQueue.main.async {
                         print(result)
+                        completion(result)
                     }
                 }
                 catch{
@@ -111,7 +167,7 @@ class ServerCommunication : ObservableObject{
     
     func saveOrderProduct(quantity: Int, invoice: Invoice, product: Product){
         
-        guard let url = URL(string:baseUrl + "orderproduct/save")else{
+        guard let url = URL(string:baseUrl + "orderproduct/save?invoiceid=" + String(invoice.id) + "&productid=" + String(product.id))else{
             print("Not found url")
             return
         }
@@ -206,8 +262,37 @@ class ServerCommunication : ObservableObject{
         task.resume()
     }
     
+    func getInvoicesForUser(user: User, completion:@escaping([Invoice]) -> ()){
+        guard let url = URL(string:baseUrl + "invoiceforuser?userid=" + String(user.id))else{
+            print("Not found url")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+             data, response, error in
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let invoices = try JSONDecoder().decode([Invoice].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(invoices)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+        
+    }
+    
     func getProductsForCategory(categoryid: Int, completion:@escaping([Product]) ->()){
         guard let url = URL(string:baseUrl+"products/findCategory?categoryid="+String(categoryid))else{
+            print("Not found url")
             return
         }
         
@@ -220,7 +305,6 @@ class ServerCommunication : ObservableObject{
                 do{
                     let products = try JSONDecoder().decode([Product].self, from: data)
                     DispatchQueue.main.async {
-                        //ServerCommunication.products = products
                         completion(products)
                     }
                     

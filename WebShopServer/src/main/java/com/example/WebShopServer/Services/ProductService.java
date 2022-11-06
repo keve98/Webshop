@@ -38,11 +38,15 @@ public class ProductService {
         return productRepository.findProductsBySearchText(str);
     }
 
-    public List<Product> getProductsBySearchTextAndCategoryId(String str, int categoryid) {
+    public List<Product> getProductsBySearchTextAndCategoryId(String str, Long categoryid) {
         return productRepository.findProductsBySearchTextAndCategory(str, categoryid);
     }
 
     public void saveProduct(Product newProduct) {
         productRepository.save(newProduct);
+    }
+
+    public Product getProductById(Long productid) {
+        return productRepository.getProductById(productid);
     }
 }

@@ -37,8 +37,26 @@ struct ProductDetailsView: View {
                 Spacer()
                 
                 Button(action: {
-                    let op = OrderProduct(id: 0, quantity: self.quantity, invoice: nil, product: self.product)
-                    self.cartItems.append(op)
+                    var op = OrderProduct(id: 0, quantity: self.quantity, invoice: nil, product: self.product)
+                    var found = false
+                    
+                    if cartItems.count > 0{
+                        for i in 0...cartItems.count-1{
+                            
+                            if cartItems[i].product == op.product{
+                                found = true
+                                op.quantity += 1
+                                cartItems.remove(at: i)
+                                self.cartItems.append(op)
+                            }
+                            
+                        }
+                    }
+                    if !found{
+                        self.cartItems.append(op)
+                    }
+                    
+                    
                 }, label: {
                     Text("Add to cart")
                         .padding()
@@ -46,7 +64,7 @@ struct ProductDetailsView: View {
                         .background(Color("bgColor"))
                         .foregroundColor(Color("buttonColor"))
                         .cornerRadius(10.0)
-                
+                    
                 })
             }.padding()
                 .padding(.horizontal)
@@ -93,9 +111,9 @@ struct DescriptionView: View {
                     .font(.custom("AmericanTypeWriter", size: 20))
                     .lineSpacing(8.0)
                     .opacity(0.6)
-    
+                
                 VStack{
-      
+                    
                     Text("Quantity")
                         .font(.custom("AmericanTypewriter", size: 20))
                         .fontWeight(.semibold)
@@ -109,7 +127,7 @@ struct DescriptionView: View {
                             Image(systemName: "minus")
                                 .padding(.all, 8)
                         }).padding()
-                        .frame(width: 30, height: 30)
+                            .frame(width: 30, height: 30)
                             .overlay(RoundedRectangle(cornerRadius: 50).stroke())
                             .foregroundColor(Color("buttonColor"))
                         
@@ -125,8 +143,8 @@ struct DescriptionView: View {
                                 .padding(.all, 8)
                         })
                         .background(Color("buttonColor"))
-                            .clipShape(Circle())
-                            .foregroundColor(Color("bgColor"))
+                        .clipShape(Circle())
+                        .foregroundColor(Color("bgColor"))
                     }
                     Spacer()
                 }

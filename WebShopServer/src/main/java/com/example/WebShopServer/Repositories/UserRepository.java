@@ -22,7 +22,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByName(@Param("txt") String txt);
 
     @Query(value = "select m from User m where m.Id = :userid")
-    Optional<User> findById(@Param("userid") Long id);
+    User findUserById(@Param("userid") Long id);
 
     @Transactional
     @Modifying

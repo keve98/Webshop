@@ -15,14 +15,14 @@ struct LoginView: View {
     @State var showingAlertSuccess = false
     @State var showingAlertFail = false
     @State var loginSuccess = false
-    @State var active: Bool = false
+    @State var navigateToHomePage: Bool = false
     @Binding var isShow: Bool
     
     
     var body: some View {
         GeometryReader{geometry in
         NavigationLink(destination: HomePageView(),
-                       isActive: self.$active,
+                       isActive: self.$navigateToHomePage,
                        label: {
                         Text("")}).hidden()
         ZStack {
@@ -56,7 +56,7 @@ struct LoginView: View {
                                 if validator.isLoginComplete{
                                     server.login(userName: validator.username, pw: validator.password, completion: {
                                         (value) in
-                                            self.active = value
+                                            self.navigateToHomePage = value
                                     })
                                 }
                             }, label: {

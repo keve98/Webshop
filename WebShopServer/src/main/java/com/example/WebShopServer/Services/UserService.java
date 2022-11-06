@@ -35,9 +35,12 @@ public class UserService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Optional<User> getUserById(Long id){
-        return userRepository.findById(id);
+    public User getUserById(Long id){
+        return userRepository.findUserById(id);
     }
+
+    public Optional<User> findById(Long id){return userRepository.findById(id);}
+
     public void saveUser(User user){
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -71,7 +74,7 @@ public class UserService {
         helper.setSubject(subject);
 
 
-        String verifyURL = "http://localhost:8080/" + "verify/" + user.getVerificatonCode();
+        String verifyURL = "http://localhost:8080/" + "verify/" + user.getVerificationCode();
 
         String content = "Dear "+user.getName()+",<br><br>"
                 + "Please click the link below to verify your registration:<br>"

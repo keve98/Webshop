@@ -31,5 +31,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     List<Product> findProductsBySearchText(@Param("str") String str);
 
     @Query(value = "select p from Product p where p.Name like %:str% and p.category.Id = :categoryid")
-    List<Product> findProductsBySearchTextAndCategory(@Param("str") String str, @Param("categoryid") int categoryid);
+    List<Product> findProductsBySearchTextAndCategory(@Param("str") String str, @Param("categoryid") Long categoryid);
+
+    @Query(value = "select p from Product p where p.Id = :id")
+    Product getProductById(@Param("id") Long id);
 }

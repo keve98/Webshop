@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.*;
 
@@ -49,13 +50,13 @@ public class ProductController {
     }
 
     @GetMapping("/products/findName")
-    public ResponseEntity<List<Product>> getProductsBySearchText(@QueryParam("str") String str){
+    public ResponseEntity<List<Product>> getProductsBySearchText(@PathParam("str") String str){
         List<Product> products = productService.getProductsBySearchText(str);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/products/findNameAndCat")
-    public ResponseEntity<List<Product>> getProductsBySearchTextAndCategoryId(@QueryParam("str") String str, @QueryParam("categoreyid") int categoryid){
+    public ResponseEntity<List<Product>> getProductsBySearchTextAndCategoryId(@PathParam("str") String str, @PathParam("categoreyid") Long categoryid){
         List<Product> products = productService.getProductsBySearchTextAndCategoryId(str, categoryid);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

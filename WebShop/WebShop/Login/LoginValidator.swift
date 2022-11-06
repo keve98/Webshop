@@ -34,7 +34,7 @@ class LoginValidator: ObservableObject{
         if isPasswordValid(){
             return ""
         }else{
-            return "Enter your pssword."
+            return "Enter your password."
         }
     }
     

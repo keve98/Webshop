@@ -1,9 +1,10 @@
 package com.example.WebShopServer.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -28,11 +29,18 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "userid")
+    @JsonBackReference(value = "userproduct-movement")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "categoryid")
+    @JsonBackReference(value = "category-movement")
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference(value = "product-movement")
+    private List<OrderProduct> orderProducts;
+
 
     @Column(name = "createdtime")
     private Date dateTime;

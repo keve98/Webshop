@@ -1,13 +1,15 @@
 package com.example.WebShopServer.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "category")
-@JsonIgnoreProperties({"hibernateLazyInitializer","products"})
 public class Category {
 
     @Id
@@ -19,6 +21,7 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @JsonManagedReference(value = "category-movement")
     private List<Product> products;
 
     public Long getId() {

@@ -1,15 +1,12 @@
 package com.example.WebShopServer.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "invoice")
-@JsonIgnoreProperties({"hibernateLazyInitializer","orderProducts"})
 public class Invoice {
 
     @Id
@@ -17,15 +14,17 @@ public class Invoice {
     @Column(name = "idinvoice")
     private Long Id;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @ManyToOne
     @JoinColumn(name = "userid")
+    @JsonBackReference(value = "userinvoice-movement")
     private User user;
 
     @Column(name = "amount")
     private int Amount;
 
     @OneToMany(mappedBy = "invoice")
+    @JsonManagedReference(value = "invoice-movement")
     private List<OrderProduct> orderProducts;
 
     public Invoice(){}
@@ -49,5 +48,17 @@ public class Invoice {
 
     public int getAmount() {
         return Amount;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setAmount(int amount) {
+        Amount = amount;
+    }
+
+    public String toString(){
+        return this.user.getUsername();
     }
 }

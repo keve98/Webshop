@@ -1,17 +1,13 @@
 package com.example.WebShopServer.Models;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties({"hibernateLazyInitializer","products", "invoices"})
 public class User {
 
     @Id
@@ -40,12 +36,12 @@ public class User {
     @Column(name = "isenabled")
     private boolean IsEnabled;
 
-    @OneToMany(mappedBy = "user")
+    @JsonManagedReference(value = "userproduct-movement")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "userinvoice-movement")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<Invoice> invoices;
 
     public User(){};
@@ -92,10 +88,6 @@ public class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getVerificatonCode() {
-        return VerificationCode;
     }
 
     public void setVerificatonCode(String randomCode) {

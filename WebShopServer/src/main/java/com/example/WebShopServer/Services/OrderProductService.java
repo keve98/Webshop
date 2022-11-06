@@ -19,7 +19,7 @@ public class OrderProductService {
 
     public List<OrderProduct> getAllOrderProducts(){return orderProductRepository.findAll();}
 
-    public List<OrderProduct> getOrderProductsByInvoiceId(int invoiceid) {
+    public List<OrderProduct> getOrderProductsByInvoiceId(Long invoiceid) {
         return orderProductRepository.findOrderProductsByInvoiceId(invoiceid);
     }
 

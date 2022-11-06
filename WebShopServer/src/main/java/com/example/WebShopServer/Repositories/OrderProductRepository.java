@@ -16,5 +16,6 @@ public interface OrderProductRepository extends CrudRepository<OrderProduct, Lon
 
     @Query(value = "select o from OrderProduct o " +
             "where o.invoice.Id = :invoiceid order by o.Id")
-    List<OrderProduct> findOrderProductsByInvoiceId(@Param("invoiceid") int invoiceid);
+    List<OrderProduct> findOrderProductsByInvoiceId(@Param("invoiceid") Long invoiceid);
+
 }

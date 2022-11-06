@@ -12,12 +12,19 @@ public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
 
+
+
     @Autowired
     public InvoiceService(InvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
     }
 
     public List<Invoice> getAllInvoices(){return invoiceRepository.findAll();}
+    public List<Invoice> getInvoicesForUser(Long userid){return invoiceRepository.getInvoiceForUserById(userid);}
+
+    public Invoice getInvoiceByID(Long id){
+        return invoiceRepository.getInvoiceById(id);
+    }
 
     public void saveInvoice(Invoice newInvoiceEntity) {
         invoiceRepository.save(newInvoiceEntity);

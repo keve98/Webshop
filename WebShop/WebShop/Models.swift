@@ -55,9 +55,9 @@ struct OrderProduct: Codable, Hashable, Identifiable, Equatable{
     }
     
     let id : Int
-    let quantity : Int
+    var quantity : Int
     let invoice: Invoice?
-    let product : Product
+    let product : Product?
 }
 
 struct Invoice: Codable, Hashable{
@@ -67,6 +67,7 @@ struct Invoice: Codable, Hashable{
     }
     
     let id : Int
-    let user : User
     let amount : Int
+    let orderProducts : [OrderProduct]?
+    let user: User?
 }

@@ -1,16 +1,18 @@
 package com.example.WebShopServer.Controllers;
 
 
+import com.example.WebShopServer.Models.Invoice;
 import com.example.WebShopServer.Models.OrderProduct;
 import com.example.WebShopServer.Models.Product;
+import com.example.WebShopServer.Services.InvoiceService;
 import com.example.WebShopServer.Services.OrderProductService;
+import com.example.WebShopServer.Services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import java.util.List;
 
@@ -18,9 +20,16 @@ import java.util.List;
 public class OrderProductController {
 
     OrderProductService orderProductService;
+    InvoiceService invoiceService;
+    ProductService productService;
 
-    public OrderProductController(OrderProductService orderProductService) {
+    @Autowired
+    public OrderProductController(OrderProductService orderProductService,
+                                  InvoiceService invoiceService,
+                                  ProductService productService) {
         this.orderProductService = orderProductService;
+        this.invoiceService = invoiceService;
+        this.productService = productService;
     }
 
     @GetMapping("/orderproducts")
@@ -30,14 +39,22 @@ public class OrderProductController {
     }
 
     @GetMapping("/orderproductsforinvoice")
-    public ResponseEntity<List<OrderProduct>> getOrderProductsByInvoiceId(@QueryParam("invoiceid") int invoiceid){
+    public ResponseEntity<List<OrderProduct>> getOrderProductsByInvoiceId(@RequestParam("invoiceid") Long invoiceid){
         List<OrderProduct> orderproducts = orderProductService.getOrderProductsByInvoiceId(invoiceid);
         return new ResponseEntity<>(orderproducts, HttpStatus.OK);
     }
 
     @PostMapping(value = "/orderproduct/save")
-    public ResponseEntity<OrderProduct> saveOrderProduct(@RequestBody OrderProduct newOrderProduct){
-        OrderProduct newOrderProductEntity = new OrderProduct(newOrderProduct.getQuantity(), newOrderProduct.getInvoice(), newOrderProduct.getProduct());
+    public ResponseEntity<OrderProduct> saveOrderProduct(@RequestParam("invoiceid") Long invoiceid, @RequestParam("productid") Long productid, @RequestBody OrderProduct newOrderProduct){
+
+        Invoice invoice = invoiceService.getInvoiceByID(invoiceid);
+
+        Product product = productService.getProductById(productid);
+
+        OrderProduct newOrderProductEntity = new OrderProduct(newOrderProduct.getQuantity(), invoice, product);
+
+        //newOrderProductEntity.setInvoice(invoice);
+
         orderProductService.saveOrderProduct(newOrderProductEntity);
 
         return new ResponseEntity<>(newOrderProductEntity, HttpStatus.OK);

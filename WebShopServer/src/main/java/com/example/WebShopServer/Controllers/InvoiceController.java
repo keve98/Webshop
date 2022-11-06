@@ -9,10 +9,7 @@ import com.example.WebShopServer.Services.OrderProductService;
 import com.example.WebShopServer.Services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +23,10 @@ public class InvoiceController {
 
     UserService userService;
 
-    public InvoiceController(InvoiceService invoiceService) {
+    public InvoiceController(InvoiceService invoiceService, UserService userService) {
+
         this.invoiceService = invoiceService;
+        this.userService = userService;
     }
 
     @GetMapping("/invoices")
@@ -36,14 +35,17 @@ public class InvoiceController {
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/invoice/save")
-    public ResponseEntity<Invoice> saveInvoice(@RequestBody Invoice newInvoice){
-        Optional<User> user = userService.getUserById(newInvoice.getUser().getId());
-        User userentity = new User(user.)
-        Invoice newInvoiceEntity = new Invoice(newInvoice.getUser(), newInvoice.getAmount());
-        System.out.println(newInvoiceEntity.getId() + "\t" + newInvoiceEntity.getId());
-        invoiceService.saveInvoice(newInvoiceEntity);
+    @GetMapping("/invoiceforuser")
+    public ResponseEntity<List<Invoice>> getInvoicesForUser(@RequestParam("userid") Long userid){
+        List<Invoice> invoices = invoiceService.getInvoicesForUser(userid);
+        return new ResponseEntity<>(invoices, HttpStatus.OK);
+    }
 
+    @PostMapping(value = "/invoice/save")
+    public ResponseEntity<Invoice> saveInvoice(@RequestParam("userid") Long userid, @RequestBody Invoice newInvoice){
+        User user = userService.getUserById(userid);
+        Invoice newInvoiceEntity = new Invoice(user, newInvoice.getAmount());
+        invoiceService.saveInvoice(newInvoiceEntity);
         return new ResponseEntity<>(newInvoiceEntity, HttpStatus.OK);
     }
 }
