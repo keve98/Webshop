@@ -24,6 +24,7 @@ struct HomePageView: View {
     @State var navigateToDetailsPage = false
     @State var navigateToCart = false
     @State var navigateToPreviousOrders = false
+    @State var navigateToMostRecentProducts = false
     
     @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", user: ServerCommunication.loggedInUser, dateTime: "")
     
@@ -204,10 +205,16 @@ struct HomePageView: View {
                         .navigationBarHidden(true)
                     
                     HStack{
-                        ButtonNavBarItem(imageName: "home", action: {}, foregroundColor: Color("buttonColor"))
+                       
                         ButtonNavBarItem(imageName: "cart", action: {
                             withAnimation{
                                 self.navigateToCart.toggle()}
+                        }, foregroundColor: Color.white)
+                        ButtonNavBarItem(imageName: "house", action: {}, foregroundColor: Color("buttonColor"))
+                        ButtonNavBarItem(imageName: "heart", action: {
+                            withAnimation{
+                                self.navigateToMostRecentProducts.toggle()
+                            }
                         }, foregroundColor: Color.white)
                     }   .background(Color.white)
                         .clipShape(Capsule())
@@ -225,10 +232,13 @@ struct HomePageView: View {
                 SideMenuView(logoutAction: {
                     HomePageView.server.logout()
                     self.navigateToLogout.toggle()
+                    self.showMenu.toggle()
                 }, navigateToProfileAction: {
                     self.navigateToProfile.toggle()
+                    self.showMenu.toggle()
                 }, navigateToPreviousOrders: {
                     self.navigateToPreviousOrders.toggle()
+                    self.showMenu.toggle()
                 }).frame(width: geometry.size.width/3)
             }
             }.background(Color("bgColor"))
@@ -316,13 +326,14 @@ struct ButtonNavBarItem: View{
     
     var body: some View{
         Button(action: action){
-            Image(imageName)
+            Image(systemName: imageName)
                 .resizable()
                 .frame(width: 15, height: 15)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(foregroundColor)
                 .cornerRadius(10)
+                .foregroundColor(Color.black)
                 
         }
     }
