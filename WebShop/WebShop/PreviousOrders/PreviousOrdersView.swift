@@ -60,7 +60,9 @@ struct PreviousOrdersView: View {
                     }
                 }
             }
-        }.onAppear{
+        }.background(Color("bgColor"))
+            .navigationBarTitle("")
+            .onAppear{
             ServerCommunication().getInvoicesForUser(user: ServerCommunication.loggedInUser, completion: {(previousOrders) in
                 self.previousOrders = previousOrders
             })

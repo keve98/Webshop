@@ -1,7 +1,7 @@
 package com.example.WebShopServer.Repositories;
 
 
-import com.example.WebShopServer.Models.Product;
+import com.example.WebShopServer.Models.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -35,4 +35,32 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Query(value = "select p from Product p where p.Id = :id")
     Product getProductById(@Param("id") Long id);
+
+    @Query(value = "select product.idproduct,\n" +
+            "\t\tproduct.name,\n" +
+            "        product.price,\n" +
+            "        product.description,\n" +
+            "        product.currency,\n" +
+            "        product.userid,\n" +
+            "        product.categoryid," +
+            "       product.createdTime\n" +
+            " FROM product, orderproduct, invoice where product.idproduct = orderproduct.productid and\n" +
+            "orderproduct.invoiceid = invoice.idinvoice and \n" +
+            "invoice.userid = :userid\n" +
+            "group by product.idproduct\n" +
+            "order by count(*) desc\n" +
+            "limit 10\n", nativeQuery = true)
+    List<Product> getTheMostRecentOrderedProductsForUser(@Param("userid") Long userid);
+
+    @Query(value = "select product.idproduct,\n" +
+            "\t\tproduct.name,\n" +
+            "        product.price,\n" +
+            "        product.description,\n" +
+            "        product.currency,\n" +
+            "        product.userid,\n" +
+            "        product.categoryid,\n" +
+            "        product.createdTime from orderproduct, product \n" +
+            "        where product.idproduct = orderproduct.productid \n" +
+            "        and orderproduct.invoiceid = :invoiceid", nativeQuery = true)
+    List<Product> getProductsForInvoice(@Param("invoiceid") Long invoiceid);
 }

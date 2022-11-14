@@ -26,7 +26,7 @@ struct HomePageView: View {
     @State var navigateToPreviousOrders = false
     @State var navigateToMostRecentProducts = false
     
-    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", user: ServerCommunication.loggedInUser, dateTime: "")
+    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", user: ServerCommunication.loggedInUser, dateTime: "", orderProducts: nil)
     
     var body: some View {
         GeometryReader{geometry in
@@ -57,6 +57,12 @@ struct HomePageView: View {
             NavigationLink(
                 destination: PreviousOrdersView(),
                 isActive: self.$navigateToPreviousOrders,
+                label: {
+                Text("")
+            }).hidden()
+            NavigationLink(
+                destination: MostRecentOrdersView(cartItems: $cartItems),
+                isActive: self.$navigateToMostRecentProducts,
                 label: {
                 Text("")
             }).hidden()

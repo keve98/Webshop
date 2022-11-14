@@ -353,6 +353,33 @@ class ServerCommunication : ObservableObject{
         task.resume()
     }
     
+    func getMostRecentProductsForUser(user: User, completion:@escaping([Product]) -> ()){
+        guard let url = URL(string:baseUrl+"products/findMostRecent?userid=" + String(user.id))else{
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+            data, response, error in
+            
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(products)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
     func logout(){
         ServerCommunication.loggedInUser = User(id: 0, name: "", username: "", password: "", address: "", email: "")
         ServerCommunication.loginSuccess = false

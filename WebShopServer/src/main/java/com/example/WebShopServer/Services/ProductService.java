@@ -49,4 +49,8 @@ public class ProductService {
     public Product getProductById(Long productid) {
         return productRepository.getProductById(productid);
     }
+
+    public List<Product> getTheMostRecentProductsForUser(Long userid){return productRepository.getTheMostRecentOrderedProductsForUser(userid);}
+
+    public List<Product> getProductsForInvoice(Long invoiceid){return productRepository.getProductsForInvoice(invoiceid);}
 }

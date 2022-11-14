@@ -69,4 +69,15 @@ public class ProductController {
         return new ResponseEntity<>(newProductEntity, HttpStatus.OK);
     }
 
+    @GetMapping("/products/findMostRecent")
+    public ResponseEntity<List<Product>> getTheMostRecentProductsForUser(@PathParam("userid") Long userid){
+        List<Product> products = productService.getTheMostRecentProductsForUser(userid);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/products/findForInvoice")
+    public ResponseEntity<List<Product>> getProductsForInvoice(@PathParam("invoiceid") Long invoiceid){
+        List<Product> products = productService.getProductsForInvoice(invoiceid);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

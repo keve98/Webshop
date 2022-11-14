@@ -13,7 +13,7 @@ struct CartView: View {
     
     @Binding var cartItems : [OrderProduct]
     @State var navigateToHome = false
-    
+    @State var navigateToRecentProducts = false
     @State var invoice : Invoice?
     
     @State var totalAmount = 0;
@@ -23,6 +23,12 @@ struct CartView: View {
             NavigationLink(
                 destination: HomePageView(cartItems: self.cartItems),
                 isActive: self.$navigateToHome,
+                label: {
+                    Text("")
+                }).hidden()
+            NavigationLink(
+                destination: MostRecentOrdersView(cartItems: self.$cartItems),
+                isActive: self.$navigateToRecentProducts,
                 label: {
                     Text("")
                 }).hidden()
@@ -113,16 +119,23 @@ struct CartView: View {
                                 
                             }
                             HStack{
-                                ButtonNavBarItem(imageName: "home", action: {
+                               
+                                ButtonNavBarItem(imageName: "cart", action: {}, foregroundColor: Color("buttonColor"))
+                                ButtonNavBarItem(imageName: "house", action: {
                                     withAnimation{
                                         self.navigateToHome.toggle()
                                     }
                                 }, foregroundColor: Color.white)
-                                ButtonNavBarItem(imageName: "cart", action: {}, foregroundColor: Color("buttonColor"))
+                                ButtonNavBarItem(imageName: "heart", action: {
+                                    withAnimation{
+                                        self.navigateToRecentProducts.toggle()
+                                    }
+                                }, foregroundColor: Color.white)
                             }   .background(Color.white)
                                 .clipShape(Capsule())
                                 .padding(.horizontal)
                                 .shadow(color: Color.black.opacity(0.15), radius: 8, x: 2, y: 6)
+                                .frame(maxHeight: .infinity, alignment: .bottom)
                             
                             
                         }.frame(maxWidth: .infinity, alignment: .center)

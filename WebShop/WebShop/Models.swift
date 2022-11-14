@@ -29,6 +29,7 @@ struct Product: Codable, Hashable, Identifiable, Equatable{
     let currency: String
     let user: User?
     let dateTime: String
+    let orderProducts : [OrderProduct]?
 }
 
 struct User: Codable, Equatable{
