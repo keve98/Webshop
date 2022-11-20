@@ -12,19 +12,21 @@ struct PreviousOrdersView: View {
     @State var previousOrders : [Invoice] = []
     
     @State var order : Invoice? = nil
+    @State var orderproducts: [OrderProduct] = []
+    @State var products: [Product] = []
     
     @State var navigateToOrderDetailsPage = false
     
     var body: some View {
         NavigationLink(
-            destination: PreviousOrderDetailsView(order: order),
+            destination: PreviousOrderDetailsView(invoice: order, orderproducts: orderproducts, products: products),
             isActive: self.$navigateToOrderDetailsPage,
             label: {
                 Text("")
             }).hidden()
         ZStack{
             Color("bgColor")
-            .ignoresSafeArea(.all)
+                .ignoresSafeArea(.all)
             
             VStack{
                 Text("Previous orders")
@@ -37,22 +39,45 @@ struct PreviousOrdersView: View {
                         VStack{
                             ForEach(previousOrders, id: \.self){previousOrder in
                                 HStack{
-                                ProductListViewImage(imageName: "product")
-                                Text("Paid")
-                                    .font(.custom("AmericanTypewriter", size: 14))
-                                    .fontWeight(.medium)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding([.leading])
-                                Text(String(previousOrder.orderProducts!.count) + "pcs")
-                                    .font(.custom("AmericanTypewriter", size: 14))
-                                    .fontWeight(.medium)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(String(previousOrder.amount) + ",-")
-                                    .font(.custom("AmericanTypewriter", size: 14))
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .padding([.trailing])
+                                    ProductListViewImage(imageName: "product")
+                                    Text("Paid")
+                                        .font(.custom("AmericanTypewriter", size: 14))
+                                        .fontWeight(.medium)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding([.leading])
+                                    Text(String(previousOrder.orderProducts!.count) + "pcs")
+                                        .font(.custom("AmericanTypewriter", size: 14))
+                                        .fontWeight(.medium)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(String(previousOrder.amount) + ",-")
+                                        .font(.custom("AmericanTypewriter", size: 14))
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                        .padding([.trailing])
                                 }.onTapGesture{
                                     self.order = previousOrder
+                                    Task{
+                                        ServerCommunication().getOrderProductsForInvoice(invoice: self.order!, completion: {(ops) in
+                                            self.orderproducts = ops
+                                        })
+                                        
+                                        ServerCommunication().getProductsForInvoice(invoice: self.order!, completion: {
+                                            (ps) in
+                                            self.products = ps
+                                        })
+                                    }
+                                    
+                                    for var op in self.orderproducts{
+                                        for p in self.products{
+                                            for op_t in p.orderProducts!{
+                                                if op_t.id == op.id{
+                                                    op.product = p
+                                                    print(op)
+                                                }
+                                            }
+                                        }
+                                        
+                                        
+                                    }
                                     self.navigateToOrderDetailsPage.toggle()
                                 }
                             }
@@ -63,10 +88,10 @@ struct PreviousOrdersView: View {
         }.background(Color("bgColor"))
             .navigationBarTitle("")
             .onAppear{
-            ServerCommunication().getInvoicesForUser(user: ServerCommunication.loggedInUser, completion: {(previousOrders) in
-                self.previousOrders = previousOrders
-            })
-        }
+                ServerCommunication().getInvoicesForUser(user: ServerCommunication.loggedInUser, completion: {(previousOrders) in
+                    self.previousOrders = previousOrders
+                })
+            }
     }
 }
 

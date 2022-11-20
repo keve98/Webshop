@@ -30,6 +30,7 @@ struct Product: Codable, Hashable, Identifiable, Equatable{
     let user: User?
     let dateTime: String
     let orderProducts : [OrderProduct]?
+    let category : Category?
 }
 
 struct User: Codable, Equatable{
@@ -58,7 +59,7 @@ struct OrderProduct: Codable, Hashable, Identifiable, Equatable{
     let id : Int
     var quantity : Int
     let invoice: Invoice?
-    let product : Product?
+    var product : Product?
 }
 
 struct Invoice: Codable, Hashable{

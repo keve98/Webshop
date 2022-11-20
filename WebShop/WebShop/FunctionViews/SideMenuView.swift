@@ -11,11 +11,23 @@ struct SideMenuView: View {
     
     let logoutAction: () -> Void
     let navigateToProfileAction: () -> Void
+    let navigateToNewItem: () -> Void
     let navigateToPreviousOrders: () -> Void
     
     var body: some View {
         NavigationView{
         VStack(alignment: .leading) {
+            HStack {
+                Button(action: navigateToNewItem, label: {
+                    Image(systemName: "plus")
+                        .foregroundColor(.black)
+                        .imageScale(.large)
+                    Text("Sell product")
+                           .foregroundColor(.black)
+                           .font(.headline)
+                }).padding([.leading, .top, .trailing])
+                
+            }
             HStack {
                 Button(action: navigateToProfileAction, label: {
                     Image(systemName: "person")
@@ -37,8 +49,8 @@ struct SideMenuView: View {
                     Text("Previous orders")
                         .foregroundColor(.black)
                         .font(.headline)
-                }).padding([.leading, .bottom, .trailing])
-                    //.padding(.top, 5)
+                }).padding([.leading, .top, .trailing])
+                    
             }
             
             HStack {
@@ -49,8 +61,8 @@ struct SideMenuView: View {
                         Text("Logout")
                                .foregroundColor(.black)
                                .font(.headline)
-                    }).padding([.leading, .bottom, .trailing])
-                       // .padding(.top, 5)
+                    }).padding([.leading, .top, .trailing])
+                       
             }
             Spacer()
         }
@@ -64,6 +76,6 @@ struct SideMenuView: View {
 
 struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuView(logoutAction: {}, navigateToProfileAction: {}, navigateToPreviousOrders: {})
+        SideMenuView(logoutAction: {}, navigateToProfileAction: {}, navigateToNewItem: {}, navigateToPreviousOrders: {})
     }
 }

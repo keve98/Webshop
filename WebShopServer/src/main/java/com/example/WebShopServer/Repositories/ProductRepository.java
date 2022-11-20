@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
-    @Query(value = "select p from Product p order by p.Id")
+    @Query(value = "select p from Product p order by p.id")
     List<Product> findAll();
 
     @Query(value = "select p from Product p where p.user.Id = :userid")
@@ -27,13 +27,13 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query(value = "select p from Product p where p.dateTime >= :createdDateTime")
     List<Product> findNewProductsForDateTime(@Param("createdDateTime") Date createdDateTime);
 
-    @Query(value = "select p from Product p where p.Name like %:str%")
+    @Query(value = "select p from Product p where p.name like %:str%")
     List<Product> findProductsBySearchText(@Param("str") String str);
 
-    @Query(value = "select p from Product p where p.Name like %:str% and p.category.Id = :categoryid")
+    @Query(value = "select p from Product p where p.name like %:str% and p.category.Id = :categoryid")
     List<Product> findProductsBySearchTextAndCategory(@Param("str") String str, @Param("categoryid") Long categoryid);
 
-    @Query(value = "select p from Product p where p.Id = :id")
+    @Query(value = "select p from Product p where p.id = :id")
     Product getProductById(@Param("id") Long id);
 
     @Query(value = "select product.idproduct,\n" +

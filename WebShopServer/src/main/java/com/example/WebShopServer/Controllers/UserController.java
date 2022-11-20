@@ -25,7 +25,6 @@ public class UserController {
 
     @PostMapping(value = "/user/save")
     public ResponseEntity<User> saveUser(@RequestBody User newData) throws Exception{
-        System.out.println(newData.toString());
 
         String username = newData.getUsername();
         String password = newData.getPassword();

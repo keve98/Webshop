@@ -15,6 +15,7 @@ struct CartView: View {
     @State var navigateToHome = false
     @State var navigateToRecentProducts = false
     @State var invoice : Invoice?
+    @State var q = 0
     
     @State var totalAmount = 0;
     
@@ -45,22 +46,58 @@ struct CartView: View {
                     VStack{
                         ScrollView{
                             VStack{
-                                ForEach(cartItems, id: \.self){orderProduct in
+                                ForEach(self.$cartItems.indices, id: \.self){i in
                                     HStack{
                                         ProductListViewImage(imageName: "product")
-                                        Text(orderProduct.product!.name)
-                                            .font(.custom("AmericanTypewriter", size: 14))
-                                            .fontWeight(.medium)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding([.leading])
-                                        Text(String(orderProduct.quantity) + " pcs")
-                                            .font(.custom("AmericanTypewriter", size: 14))
-                                            .fontWeight(.medium)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                        Text(orderProduct.product!.currency + " " + String(orderProduct.product!.price * orderProduct.quantity) )
-                                            .font(.custom("AmericanTypewriter", size: 14))
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                            .padding([.trailing])
+                                        
+                                        VStack{
+                                            Text(self.cartItems[i].product!.name)
+                                                .font(.custom("AmericanTypewriter", size: 14))
+                                                .fontWeight(.medium)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding([.leading])
+                                        HStack{
+                                            Button(action: {
+                                                print(cartItems[i])
+                                                
+                                                print(cartItems[i].quantity)
+                                                if(cartItems[i].quantity == 0){
+                                                    cartItems.remove(at: i)
+                                                }
+                                                self.totalAmount -= cartItems[i].product!.price
+                                                
+                                            }, label: {
+                                                Image(systemName: "minus")
+                                                    .padding(.all, 8)
+                                            }).padding()
+                                                .frame(width: 30, height: 30)
+                                                .overlay(RoundedRectangle(cornerRadius: 50).stroke())
+                                                .foregroundColor(Color("buttonColor"))
+                                            
+                                            Text(String(cartItems[i].quantity))
+                                                .font(.custom("AmericanTypewriter", size: 20))
+                                                .fontWeight(.semibold)
+                                                .padding(.horizontal, 8)
+                                            
+                                            Button(action: {
+                                                cartItems[i].quantity += 1
+                                                self.totalAmount += cartItems[i].product!.price
+                                            }, label: {
+                                                Image(systemName: "plus")
+                                                    .padding(.all, 8)
+                                            })
+                                            .background(Color("buttonColor"))
+                                            .clipShape(Circle())
+                                            .foregroundColor(Color("bgColor"))
+                                            
+                                            Text(cartItems[i].product!.currency + " " + String(cartItems[i].product!.price * cartItems[i].quantity) )
+                                                .font(.custom("AmericanTypewriter", size: 14))
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                                .padding([.trailing])
+                                        }
+                                        
+                                        }
+                                        
                                     }
                                     Color("buttonColor")
                                         .frame(width: .infinity, height: 2)

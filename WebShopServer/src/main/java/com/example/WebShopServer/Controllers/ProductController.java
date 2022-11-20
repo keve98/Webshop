@@ -1,7 +1,9 @@
 package com.example.WebShopServer.Controllers;
 
-import com.example.WebShopServer.Models.Product;
+import com.example.WebShopServer.Models.*;
+import com.example.WebShopServer.Services.CategoryService;
 import com.example.WebShopServer.Services.ProductService;
+import com.example.WebShopServer.Services.UserService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.*;
 
 import java.util.Date;
 import java.util.List;
@@ -19,9 +20,13 @@ import java.util.List;
 public class ProductController {
 
     ProductService productService;
+    CategoryService categoryService;
+    UserService userService;
 
-    public ProductController(ProductService p){
+    public ProductController(ProductService p, UserService u, CategoryService c){
+        this.userService = u;
         this.productService = p;
+        this.categoryService = c;
     }
 
     @GetMapping("/products")
@@ -62,8 +67,10 @@ public class ProductController {
     }
 
     @PostMapping(value = "/product/save")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product newProduct){
-        Product newProductEntity = new Product(newProduct.getName(), newProduct.getPrice(), newProduct.getDescription(), newProduct.getCurrency(), newProduct.getUser(), newProduct.getCategory());
+    public ResponseEntity<Product> saveProduct(@RequestParam("userid") Long userid, @RequestParam("categoryid") Long categoryid,  @RequestBody Product newProduct){
+        User user = userService.getUserById(userid);
+        Category category = categoryService.getCategoryById(categoryid);
+        Product newProductEntity = new Product(newProduct.getName(), newProduct.getPrice(), newProduct.getDescription(), newProduct.getCurrency(), user, category);
         productService.saveProduct(newProductEntity);
 
         return new ResponseEntity<>(newProductEntity, HttpStatus.OK);

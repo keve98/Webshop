@@ -165,6 +165,41 @@ class ServerCommunication : ObservableObject{
         }.resume()
     }
     
+    func saveProduct(product: Product){
+        guard let url = URL(string:baseUrl + "product/save?userid=" + String(product.user!.id) + "&categoryid=" + String(product.category!.id))else{
+            print("Not found url")
+            return
+        }
+        
+        let newProduct = Product(name: product.name, id: 0, price: product.price, description: product.description, currency: product.currency, user: product.user, dateTime: product.dateTime, orderProducts: [], category: product.category)
+        
+        let json = try! JSONEncoder().encode(newProduct)
+        print(String(data: json, encoding: String.Encoding.utf8))
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = json
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){
+            data, response, error in
+            if let data = data {
+                do{
+                    let result = try JSONDecoder().decode(Product.self, from: data)
+                    DispatchQueue.main.async {
+                        print(result)
+                    }
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }.resume()
+        
+        
+        
+    }
+    
     func saveOrderProduct(quantity: Int, invoice: Invoice, product: Product){
         
         guard let url = URL(string:baseUrl + "orderproduct/save?invoiceid=" + String(invoice.id) + "&productid=" + String(product.id))else{
@@ -288,6 +323,60 @@ class ServerCommunication : ObservableObject{
         
         task.resume()
         
+    }
+    
+    func getOrderProductsForInvoice(invoice: Invoice, completion:@escaping([OrderProduct]) -> ()){
+        guard let url = URL(string:baseUrl + "orderproducts/findForInvoice?invoiceid=" + String(invoice.id))else{
+            print("Not found url")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+             data, response, error in
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let orderProducts = try JSONDecoder().decode([OrderProduct].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(orderProducts)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getProductsForInvoice(invoice: Invoice, completion:@escaping([Product]) -> ()){
+        guard let url = URL(string:baseUrl + "products/findForInvoice?invoiceid=" + String(invoice.id))else{
+            print("Not found url")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){
+             data, response, error in
+            
+            //convert to JSON
+            if let data = data{
+                do{
+                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    DispatchQueue.main.async {
+                        completion(products)
+                    }
+                    
+                }
+                catch{
+                    print(error)
+                }
+            }
+        }
+        
+        task.resume()
     }
     
     func getProductsForCategory(categoryid: Int, completion:@escaping([Product]) ->()){

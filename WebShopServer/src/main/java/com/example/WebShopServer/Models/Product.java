@@ -3,6 +3,7 @@ package com.example.WebShopServer.Models;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -13,19 +14,19 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idproduct")
-    private Long Id;
+    private Long id;
 
     @Column(name = "name")
-    private String Name;
+    private String name;
 
     @Column(name = "price")
-    private int Price;
+    private int price;
 
     @Column(name = "description")
-    private String Description;
+    private String description;
 
     @Column(name = "currency")
-    private String Currency;
+    private String currency;
 
     @ManyToOne
     @JoinColumn(name = "userid")
@@ -48,32 +49,33 @@ public class Product {
     public Product(){}
 
     public Product(String name, int price, String description, String currency, User user, Category category) {
-        Name = name;
-        Price = price;
-        Description = description;
-        Currency = currency;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.currency = currency;
         this.user = user;
         this.category = category;
+        this.dateTime = new Timestamp(System.currentTimeMillis());
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public int getPrice() {
-        return Price;
+        return price;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public User getUser() {
@@ -86,5 +88,11 @@ public class Product {
 
     public Date getDateTime() {
         return dateTime;
+    }
+
+
+
+    public String toString(){
+        return this.getName() + "   " + this.getCurrency();
     }
 }

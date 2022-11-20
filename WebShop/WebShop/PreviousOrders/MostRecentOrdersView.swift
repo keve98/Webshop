@@ -13,7 +13,7 @@ struct MostRecentOrdersView: View {
     @State var navigateToHome = false
     @State var navigateToDetailsPage = false
     @State var recentProducts : [Product] = []
-    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", user: ServerCommunication.loggedInUser, dateTime: "", orderProducts: nil)
+    @State var product = Product(name: "", id: 0, price: 0, description: "", currency: "", user: ServerCommunication.loggedInUser, dateTime: "", orderProducts: nil, category: nil)
     @Binding var cartItems : [OrderProduct]
     
     var body: some View {

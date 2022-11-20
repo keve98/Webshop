@@ -19,8 +19,6 @@ public class InvoiceController {
 
     InvoiceService invoiceService;
 
-    OrderProductService orderProductService;
-
     UserService userService;
 
     public InvoiceController(InvoiceService invoiceService, UserService userService) {

@@ -38,8 +38,8 @@ public class OrderProductController {
         return new ResponseEntity<>(orderproducts, HttpStatus.OK);
     }
 
-    @GetMapping("/orderproductsforinvoice")
-    public ResponseEntity<List<OrderProduct>> getOrderProductsByInvoiceId(@RequestParam("invoiceid") Long invoiceid){
+    @GetMapping("/orderproducts/findForInvoice")
+    public ResponseEntity<List<OrderProduct>> getOrderProductsByInvoiceId(@PathParam("invoiceid") Long invoiceid){
         List<OrderProduct> orderproducts = orderProductService.getOrderProductsByInvoiceId(invoiceid);
         return new ResponseEntity<>(orderproducts, HttpStatus.OK);
     }
@@ -53,7 +53,6 @@ public class OrderProductController {
 
         OrderProduct newOrderProductEntity = new OrderProduct(newOrderProduct.getQuantity(), invoice, product);
 
-        //newOrderProductEntity.setInvoice(invoice);
 
         orderProductService.saveOrderProduct(newOrderProductEntity);
 
