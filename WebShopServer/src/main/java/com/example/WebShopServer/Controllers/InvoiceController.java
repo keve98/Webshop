@@ -16,13 +16,10 @@ import java.util.Optional;
 
 @RestController
 public class InvoiceController {
-
     InvoiceService invoiceService;
-
     UserService userService;
 
     public InvoiceController(InvoiceService invoiceService, UserService userService) {
-
         this.invoiceService = invoiceService;
         this.userService = userService;
     }

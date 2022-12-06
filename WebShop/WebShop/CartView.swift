@@ -15,7 +15,6 @@ struct CartView: View {
     @State var navigateToHome = false
     @State var navigateToRecentProducts = false
     @State var invoice : Invoice?
-    @State var q = 0
     
     @State var totalAmount = 0;
     
